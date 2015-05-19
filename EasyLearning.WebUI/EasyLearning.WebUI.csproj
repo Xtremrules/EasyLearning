@@ -185,6 +185,7 @@
     <Content Include="Icon.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Study\Views\web.config" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -206,12 +207,21 @@
     <Compile Include="App_Start\IdentityStartup.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\adminsecured\adminsecuredAreaRegistration.cs" />
+    <Compile Include="Areas\adminsecured\Controllers\officeController.cs" />
+    <Compile Include="Areas\adminsecured\Models\EditViewModel.cs" />
+    <Compile Include="Areas\adminsecured\Models\UserCreateModel.cs" />
     <Compile Include="Areas\lecturer\lecturerAreaRegistration.cs" />
     <Compile Include="Areas\student\studentAreaRegistration.cs" />
+    <Compile Include="Areas\Study\StudyAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\ViewHelper.cs" />
+    <Compile Include="Models\CreateViewModel.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\ModelUser.cs" />
     <Compile Include="Modules\EFModule.cs" />
     <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -231,8 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\adminsecured\Controllers\" />
-    <Folder Include="Areas\adminsecured\Models\" />
+    <Folder Include="Areas\adminsecured\Views\office\" />
     <Folder Include="Areas\adminsecured\Views\Shared\" />
     <Folder Include="Areas\lecturer\Controllers\" />
     <Folder Include="Areas\lecturer\Models\" />
@@ -240,7 +249,10 @@
     <Folder Include="Areas\student\Controllers\" />
     <Folder Include="Areas\student\Models\" />
     <Folder Include="Areas\student\Views\Shared\" />
-    <Folder Include="Models\" />
+    <Folder Include="Areas\Study\Controllers\" />
+    <Folder Include="Areas\Study\Models\" />
+    <Folder Include="Areas\Study\Views\Shared\" />
+    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyLearning.Domain\EasyLearning.Domain.csproj">

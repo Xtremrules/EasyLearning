@@ -41,6 +41,8 @@ namespace EasyLearning.Domain.Migrations
                 rolemanager.Create(new AppRole(Roles.Lecturer));
             if (!rolemanager.RoleExists(Roles.Students))
                 rolemanager.Create(new AppRole(Roles.Students));
+            if(!rolemanager.RoleExists(Roles.Study))
+                rolemanager.Create(new AppRole(Roles.Study));
 
             AppUser user = usermanager.FindByName(Owner.UserName);
             if (user == null)
