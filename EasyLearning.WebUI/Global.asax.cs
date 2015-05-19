@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Autofac;
+using Autofac.Integration.Mvc;
+using EasyLearning.WebUI.Modules;
 using System.Web.Mvc;
-using System.Web.Routing;
 using System.Web.Optimization;
-using System.Data.Entity;
-using EasyLearning.Domain.Concrete;
+using System.Web.Routing;
 
 namespace EasyLearning.WebUI
 {
@@ -17,7 +14,16 @@ namespace EasyLearning.WebUI
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer<EasyLearningDB>(new DbInitializer());
+
+            var builder = new Autofac.ContainerBuilder();
+            builder.RegisterControllers(typeof(MvcApplication).Assembly).PropertiesAutowired();
+            builder.RegisterModule(new ServiceModule());
+            builder.RegisterModule(new EFModule());
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+            //Database.SetInitializer<EasyLearningDB>(new DbInitializer());
         }
     }
 }

@@ -21,8 +21,8 @@ namespace EasyLearning.Domain.Service
         public override IEnumerable<Lecturer> GetAll()
         {
             return _context.Lecturers.Include(x => x.AppUser)
-                .Include(x => x.Comments).Include(x => x.Courses)
-                .Include(x => x.Department).Include(x => x.Replies)
+                .Include(x => x.Courses)
+                .Include(x => x.Department)
                 .ToList();
         }
     }

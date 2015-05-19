@@ -1,21 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using EasyLearning.Domain.Identity;
-using EasyLearning.Domain.Models;
-using EasyLearning.Domain.Entity;
-using System.Diagnostics;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-
-namespace EasyLearning.Domain.Concrete
+namespace EasyLearning.Domain.Migrations
 {
-    public class DbInitializer : CreateDatabaseIfNotExists<EasyLearningDB>
+    using EasyLearning.Domain.Entity;
+    using EasyLearning.Domain.Identity;
+    using EasyLearning.Domain.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Data.Entity.Migrations;
+    using System.Diagnostics;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<EasyLearning.Domain.Concrete.EasyLearningDB>
     {
-        protected override void Seed(EasyLearningDB context)
+        public Configuration()
         {
+            AutomaticMigrationsEnabled = true;
+        }
+
+        protected override void Seed(EasyLearning.Domain.Concrete.EasyLearningDB context)
+        {
+            //  This method will be called after migrating to the latest version.
+
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data. E.g.
+            //
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
             context.Database.Log = s => Debug.WriteLine(s);
 
             // Create Admin User

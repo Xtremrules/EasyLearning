@@ -203,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\IdentityStartup.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\adminsecured\adminsecuredAreaRegistration.cs" />
     <Compile Include="Areas\lecturer\lecturerAreaRegistration.cs" />
@@ -211,6 +212,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Modules\EFModule.cs" />
+    <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

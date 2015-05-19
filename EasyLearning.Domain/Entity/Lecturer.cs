@@ -19,7 +19,5 @@ namespace EasyLearning.Domain.Entity
         //[ForeignKey("DepartmentID")]
         public virtual Department Department { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Reply> Replies { get; set; }
     }
 }
