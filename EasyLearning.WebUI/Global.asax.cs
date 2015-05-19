@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Optimization;
+using System.Data.Entity;
+using EasyLearning.Domain.Concrete;
 
 namespace EasyLearning.WebUI
 {
@@ -13,6 +16,8 @@ namespace EasyLearning.WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Database.SetInitializer<EasyLearningDB>(new DbInitializer());
         }
     }
 }

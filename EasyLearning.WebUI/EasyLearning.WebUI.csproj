@@ -197,12 +197,17 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\adminsecured\adminsecuredAreaRegistration.cs" />
     <Compile Include="Areas\lecturer\lecturerAreaRegistration.cs" />
     <Compile Include="Areas\student\studentAreaRegistration.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,7 +237,6 @@
     <Folder Include="Areas\student\Controllers\" />
     <Folder Include="Areas\student\Models\" />
     <Folder Include="Areas\student\Views\Shared\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
