@@ -7,8 +7,9 @@ namespace EasyLearning.Domain.Entity
     {
         [Required]
         public long CommentID { get; set; }
+        public string Content { get; set; }
+        [Required]
         public string AppUserID { get; set; }
-        public string UserName { get; set; }
         public virtual AppUser AppUser { get; set; }
         public virtual Comment Comment { get; set; }
     }

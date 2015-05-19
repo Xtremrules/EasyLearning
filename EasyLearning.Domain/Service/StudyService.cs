@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace EasyLearning.Domain.Service
 {
-    public class CollegeService : EntityService<College>, ICollegeService
+    public class StudyService : EntityService<Study>, IStudyService
     {
-        public CollegeService(EasyLearningDB context)
+        public StudyService(EasyLearningDB context)
             : base(context) { }
-        public async Task<College> GetByIdAsync(int Id)
+
+        public async Task<Study> GetByIdAsync(long Id)
         {
             return await _dbset.FindAsync(Id);
         }
 
-        public override IEnumerable<College> GetAll()
+        public override IEnumerable<Study> GetAll()
         {
-            return _context.Colleges
-                .Include(x => x.Departments)
-                .ToList();
+            return _context.Studies.Include(x => x.Comments)
+                .Include(x => x.Course).ToList();
         }
     }
 }

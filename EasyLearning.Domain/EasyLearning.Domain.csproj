@@ -123,8 +123,15 @@
     <Compile Include="Abstract\IEntity.cs" />
     <Compile Include="Abstract\Service\EntityService.cs" />
     <Compile Include="Abstract\Service\ICollegeService.cs" />
+    <Compile Include="Abstract\Service\ICommentService.cs" />
+    <Compile Include="Abstract\Service\ICourseService.cs" />
+    <Compile Include="Abstract\Service\IDepartmentService.cs" />
     <Compile Include="Abstract\Service\IEntityService.cs" />
+    <Compile Include="Abstract\Service\ILecturerService.cs" />
+    <Compile Include="Abstract\Service\IReplyService.cs" />
     <Compile Include="Abstract\Service\IService.cs" />
+    <Compile Include="Abstract\Service\IStudentService.cs" />
+    <Compile Include="Abstract\Service\IStudyService.cs" />
     <Compile Include="Concrete\DbInitializer.cs" />
     <Compile Include="Concrete\EasyLearningDB.cs" />
     <Compile Include="Entity\AppEnum.cs">
@@ -147,6 +154,13 @@
     <Compile Include="Entity\Study.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CollegeService.cs" />
+    <Compile Include="Service\CommentService.cs" />
+    <Compile Include="Service\CourseService.cs" />
+    <Compile Include="Service\DepartmentService.cs" />
+    <Compile Include="Service\LecturerService.cs" />
+    <Compile Include="Service\ReplyService.cs" />
+    <Compile Include="Service\StudentService.cs" />
+    <Compile Include="Service\StudyService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generate\" />

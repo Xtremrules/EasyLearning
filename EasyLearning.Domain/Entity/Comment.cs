@@ -11,10 +11,8 @@ namespace EasyLearning.Domain.Entity
         public long StudyID { get; set; }
         [Required]
         public string AppUserID { get; set; }
-        [Required]
-        public string UserName { get; set; }
         [Required, AllowHtml]
-        public string Commnet { get; set; }
+        public string Content { get; set; }
         public virtual AppUser AppUser { get; set; }
         public virtual Study Study { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
