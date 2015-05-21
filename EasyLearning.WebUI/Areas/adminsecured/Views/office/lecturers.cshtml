@@ -1,0 +1,97 @@
+﻿@using EasyLearning.Domain.Entity;
+@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<Lecturer>
+
+@{
+    ViewBag.Title = "lecturers";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.current
+        <small>All Lecturers</small>
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    @TempData["error"]
+                </div>
+            }
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                    @TempData["success"]
+                </div>
+            }
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">All Lecturers</h3>
+                </div>
+                <div class="box-body no-padding">
+                    @if (Model.Count() == 0)
+                    {
+                        <span class="pad">No Lecturer added yet</span>
+                    }
+                    else
+                    {
+                        int lectCount = 0;
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Reg No</th>
+                                    <th>Username</th>
+                                    <th>Department</th>
+                                    <th>Assigned Courses</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var lecturer in Model)
+                                {
+                                    <tr>
+                                        <td> @(++lectCount)</td>
+                                        <td>
+                                            @using (Html.BeginForm("lecturer", "office", FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("RegNo", lecturer.RegNo)
+                                                <button type="submit" class="btn btn-default">@Html.DisplayFor(x => lecturer.AppUser.FullName)</button>
+                                            }
+                                        </td>
+
+                                        <td> @lecturer.RegNo</td>
+                                        <td>@Html.DisplayFor(x => lecturer.AppUser.UserName)</td>
+                                        <td> @lecturer.Department.Title</td>
+                                        <td>
+                                            <a href="#">
+                                                <i class="fa fa-group"></i>
+                                                <span>View</span>
+                                                <span class="label label-primary">@lecturer.Courses.Count</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="pad">
+                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                            @Html.PagedListPager(Model, page => Url.Action("lecturers", new { page }))
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Styles{
+    <link type="text/css" href="~/Content/PagedList.css" rel="stylesheet" />
+}

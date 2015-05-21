@@ -1,0 +1,76 @@
+﻿@using EasyLearning.Domain.Entity;
+@model Lecturer
+@{
+}
+
+<section class="content-header">
+    <h1>
+        Lecturer
+        <small>@Model.AppUser.FullName</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("lecturers")"><i class="fa fa-dashboard"></i>Lecturer</a></li>
+        <li class="active">Here</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div>
+                <hr />
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayName("Image")
+                    </dt>
+                    <dd>
+                        @if (Model.AppUser.ImageMine == null)
+                        {
+                            <img src="~/Images/17th Hole, Mauna Lani, Kamuela, Hawaii.jpg" />
+                        }
+                        else
+                        {
+                            <img src="@Url.Action("LecturerImage", new { RegNo = Model.RegNo })" />
+                        }
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AppUser.FullName)
+                    </dt>
+
+                    <dd class="text-bold">
+                        @Html.DisplayFor(model => model.AppUser.FullName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.RegNo)
+                    </dt>
+
+                    <dd class="text-bold">
+                        @Html.DisplayFor(model => model.RegNo)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayName("Department")
+                    </dt>
+
+                    <dd class="text-bold">
+                        @Html.DisplayFor(model => model.Department.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayName("Assigned Courses")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Courses.Count)
+                    </dd>
+                </dl>
+            </div>
+            <p>
+                <a href="@Url.Action("assign-courses", new { RegNo = Model.RegNo })" class="btn btn-warning btn-flat">Assign Courses</a> |
+                @Html.ActionLink("Courses", "lecturer-courses", new { RegNo = Model.RegNo }, new { @class = "btn btn-flat btn-primary" })
+            </p>
+        </div>
+    </div>
+</section>

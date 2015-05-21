@@ -16,6 +16,7 @@ using EasyLearning.Domain.Models;
 
 namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class officeController : Controller
     {
         ICollegeService _collegeService;
@@ -44,7 +45,16 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            Dashboard dashboard = new Dashboard
+            {
+                NumberOfColleges = _collegeService.GetAll().Count(),
+                NumberOfCourses = _courseService.GetAll().Count(),
+                NumberOfDepartment = _departmentService.GetAll().Count(),
+                NumberOfLecturers = _lecturerService.GetAll().Count(),
+                NumberOfStudents = _studentService.GetAll().Count(),
+                NumberOfStudies = _studyService.GetAll().Count()
+            };
+            return View(dashboard);
         }
 
         public ActionResult colleges(string id, int? page)
@@ -96,24 +106,42 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
             return RedirectToAction("departments");
         }
 
-        public ActionResult students(int? id, int? page)
+        public ActionResult students(string id, int? page)
         {
             int pageSize = 20;
             int pageNumber = page ?? 1;
             if (id == null)
             {
-                ViewBag.DepartmentName = "All Students";
+                ViewBag.DepartmentName = "All";
                 var AllStudents = _studentService.GetAll().OrderBy(x => x.CreatedDate);
                 return View(AllStudents.ToPagedList(pageNumber, pageSize));
             }
-            ViewBag.DepartmentName = _departmentService.GetAll().Where(x => x.ID == id.Value).Single().Name;
-            var students = _studentService.GetAll().Where(x => x.DepartmentID == id.Value);
+            ViewBag.DepartmentName = _departmentService.GetAll().Where(x => x.Title == id).Single().Name;
+            var students = _departmentService.GetAll().First(x => x.Title == id).Students;
             return View(students.ToPagedList(pageNumber, pageSize));
+        }
+
+        [ActionName("student-courses")]
+        public async Task<ActionResult> StudentCourses(string RegNo, int? page)
+        {
+            if (RegNo != null)
+            {
+                Student student = await _studentService.GetByRegNoAsync(RegNo);
+                if (student != null)
+                {
+                    int pageSize = 12;
+                    int pageNumber = page ?? 1;
+                    ViewBag.Current = student.AppUser.FullName;
+                    return View("courses", student.Courses.ToPagedList(pageNumber, pageSize));
+                }
+            }
+            TempData["error"] = "No such student was found";
+            return RedirectToAction("students");
         }
 
         public ActionResult lecturers(string id, int? page)
         {
-            int pageSize = 5;
+            int pageSize = 10;
             int pageNumber = page ?? 1;
             if (string.IsNullOrEmpty(id))
             {
@@ -142,6 +170,98 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
             }
             TempData["error"] = "No Lecturer with such RegNo was found";
             return RedirectToAction("lecturers");
+        }
+
+        [ActionName("lecturer-courses")]
+        public async Task<ActionResult> LecturerCourses(string RegNo, int? page)
+        {
+            Lecturer lecturer = await _lecturerService.GetByRegNoAsync(RegNo);
+            if (lecturer != null)
+            {
+                int pageSize = 20;
+                int pageNumber = page ?? 1;
+                ViewBag.Current = lecturer.AppUser.FullName;
+                return View("Courses", lecturer.Courses.ToPagedList(pageNumber, pageSize));
+            }
+            TempData["error"] = "Lecturer not found";
+            return RedirectToAction("lecturers");
+        }
+
+        public ActionResult courses(string id, int? page)
+        {
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+            if (id == null)
+            {
+                IEnumerable<Course> AllCourses = _courseService.GetAll().OrderBy(x => x.CourseCode);
+                ViewBag.courses = "active";
+                ViewBag.Current = "All Courses";
+                return View(AllCourses.ToPagedList(pageNumber, pageSize));
+            }
+            Department department = _departmentService.GetAll().First(x => x.Title == id);
+            var DepartmentCourses = department.Courses.OrderBy(x => x.CourseCode);
+            ViewBag.Current = department.Name;
+            return View(DepartmentCourses.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult course(int id)
+        {
+            ViewBag.courses = "active";
+            var course = _courseService.GetAll().First(x => x.ID == id);
+            ViewBag.DepartmentCode = course.DepartmentCode;
+            return View(course);
+        }
+
+        [ActionName("add-course")]
+        public ActionResult AddCourse()
+        {
+            ViewBag.courses = "active";
+            PopulateDepartmentDropDownList();
+            return View("AddCourse", new AddCourseViewModel());
+        }
+
+        [ActionName("add-course")]
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddCourse(AddCourseViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (VerifyEnumData(model))
+                {
+                    if (!VerifyIfCourseExist(model))
+                    {
+                        try
+                        {
+                            Department _department = await _departmentService.GetbyIdAsync(model.DepartmentID);
+                            Course course = new Course
+                            {
+                                ID = model.ID,
+                                DepartmentCode = _department.Title,
+                                CourseTitle = model.CourseTitle,
+                                Level = model.Level,
+                                CourseCode = model.CourseCode,
+                                CreditLoad = model.CreditLoad,
+                                Semester = model.Semester,
+                            };
+                            await _departmentService.AddCourse(course, _department);
+                            TempData["success"] = "The Course has been created";
+                            return RedirectToAction("courses");
+                        }
+                        catch (Exception ex)
+                        {
+                            TempData["error"] = "Sorry error occurred Try again latter";
+                            //ModelState.AddModelError("", ex);
+                        }
+                    }
+                    else
+                        TempData["error"] = String.Format("Either the Course Code {0} or its Title {1} has already been Added", model.CourseCode, model.CourseTitle);
+                }
+                else
+                    TempData["error"] = "Both Semester and Level Must be Selected";
+            }
+            ViewBag.courses = "active";
+            PopulateDepartmentDropDownList();
+            return View("AddCourse", model);
         }
 
         [ActionName("add-college")]
@@ -255,8 +375,9 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
         [ActionName("add-lecturer")]
         public ViewResult AddLecturer()
         {
+            ViewBag.Action = new ActionModel { Action = "add-lecturer", Current = "Lecturer" };
             PopulateDepartmentDropDownList();
-            return View("AddLecturer", new UserCreateModel());
+            return View("CreateUserView", new UserCreateModel());
         }
 
         [ActionName("add-lecturer")]
@@ -298,18 +419,182 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
                 }
                 else TempData["error"] = "You Must select a gender";
             }
+            ViewBag.Action = new ActionModel { Action = "add-lecturer", Current = "Lecturer" };
             PopulateDepartmentDropDownList(model.DepartmentID);
-            return View("AddLecturer", model);
+            return View("CreateUserView", model);
         }
 
         [ActionName("add-student")]
         public ActionResult AddStudent()
         {
-            return View("AddStudent", new UserCreateModel());
+            PopulateDepartmentDropDownList();
+            ViewBag.Action = new ActionModel { Action = "add-student", Current = "Student" };
+            return View("CreateUserView", new UserCreateModel());
         }
 
         [ActionName("add-student")]
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddStudent(UserCreateModel model, Level Level, HttpPostedFileBase image = null)
+        {
+            if (ModelState.IsValid)
+            {
+                if (VerifyUserEnum(model))
+                {
+                    if (verifyLevelEnum(Level))
+                    {
+                        if (VerifyImage(image))
+                        {
+                            AppUser user = await CreateUserAsync(model, Roles.Lecturer, image);
+                            if (user != null)
+                            {
+                                Student student = new Student
+                                {
+                                    AppUserID = user.Id,
+                                    DepartmentID = model.DepartmentID,
+                                    Level = Level
+                                };
+                                try
+                                {
+                                    await _studentService.CreateAsync(student);
+                                    Department department = await _departmentService.GetbyIdAsync(model.DepartmentID);
+                                    TempData["success"] = string.Format("The Student {0} has been created and added to {1} Department", user.FullName, department.Name);
+                                    return RedirectToAction("students", new { id = department.Title });
+                                }
+                                catch (Exception ex)
+                                {
+                                    ModelState.AddModelError("", ex.Message);
+                                }
+                                IdentityResult del = await UserManager.DeleteAsync(user);
+                            }
+                        }
+
+                    }
+                    else TempData["error"] = "You must select a level";
+                }
+                else TempData["error"] = "You Must select a gender";
+            }
+            ViewBag.Action = new ActionModel { Action = "add-student", Current = "Student" };
+            PopulateDepartmentDropDownList(model.DepartmentID);
+            return View("CreateUserView", model);
+        }
+
+        [ActionName("add-drop-courses")]
+        public ActionResult AddDrop(string current, int? page)
+        {
+            if (current != null)
+            {
+                int pageSize = 10;
+                int pageNumber = page ?? 1;
+                IEnumerable<Department> departments = _departmentService.GetAll().Where(x => x.Title != current);
+                List<Department> model = new List<Department>();
+                ViewBag.Current = current;
+                foreach (var department in departments)
+                {
+                    department.Courses = department.Courses.Where(x => x.DepartmentCode == department.Title).ToList();
+                    model.Add(department);
+                }
+                return View("AddDrop", model.ToPagedList(pageNumber, pageSize));
+            }
+            TempData["error"] = "Sorry You must assess this page from the department";
+            return RedirectToAction("departments");
+        }
+
+        [ActionName("add-drop")]
+        public ActionResult AddDrop(string id, string depart)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var department = _departmentService.GetAll().Where(x => x.Title == id).SingleOrDefault();
+                if (department != null)
+                {
+                    PopulateDepartmentAssignedCourses(department, depart);
+                    ViewBag.Current = depart;
+                    return View("NonCourses", department);
+                }
+                else TempData["error"] = "Department Not found";
+            }
+            else TempData["error"] = "You must select a department";
+            return RedirectToAction("departments");
+        }
+
+        [ActionName("add-drop")]
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddDrop(string Title, string Current, string[] selectedCourses)
+        {
+            if (!string.IsNullOrEmpty(Title))
+            {
+                var _department = _departmentService.GetAll().First(x => x.Title == Current);
+                Department department = _departmentService.GetAll().Where(x => x.Title.ToLower() == Title.Trim().ToLower()).SingleOrDefault();
+                if (department != null)
+                {
+                    try
+                    {
+                        await _departmentService.AddNoneDepartmentalCourses(_department.ID, department.ID, selectedCourses);
+                        TempData["success"] = "Operation was successful";
+                        return RedirectToAction("courses", new { id = _department.Title });
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+                else TempData["error"] = "Department Not found";
+            }
+            else TempData["error"] = "You must select a department";
+            return RedirectToAction("departments");
+        }
+
+        [ActionName("assign-courses")]
+        public ActionResult AssignCourses(string RegNo)
+        {
+            if (!string.IsNullOrEmpty(RegNo))
+            {
+                Lecturer lecturer = _lecturerService.GetAll().First(x => x.RegNo == RegNo);
+                if (lecturer != null)
+                {
+                    PopulateLecturerAssignedCourses(lecturer);
+                    return View("AssignCourses", lecturer);
+                }
+                else TempData["error"] = "No such lecturer found";
+            }
+            else TempData["error"] = "Must select a lecturer";
+            return RedirectToAction("lecturers");
+        }
+
+        [ActionName("assign-courses")]
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> AssignCourses(string RegNo, string[] selectedCourses)
+        {
+            if (!string.IsNullOrEmpty(RegNo))
+            {
+                Lecturer lecturer = await _lecturerService.GetByRegNoAsync(RegNo);
+                if (lecturer != null)
+                {
+                    try
+                    {
+                        await _lecturerService.AssignCoursesAsync(RegNo, selectedCourses);
+                        TempData["success"] = "Operation was successful";
+                        return RedirectToAction("lecturer-courses", new { RegNo = lecturer.RegNo });
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+                else
+                {
+                    TempData["error"] = "Lecturer Not found";
+                    return RedirectToAction("lecturers");
+                }
+            }
+            else
+            {
+                TempData["error"] = "Must select a lecturer";
+                return RedirectToAction("lecturers");
+            }
+        }
+
         async Task<AppUser> CreateUserAsync(UserCreateModel model, string role, HttpPostedFileBase image)
         {
             AppUser user = new AppUser
@@ -343,6 +628,8 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
                     if (!await RoleManager.RoleExistsAsync(role))
                     {
                         IdentityResult roleCreate = await RoleManager.CreateAsync(new AppRole(role));
+                        if (!await RoleManager.RoleExistsAsync(Roles.Study))
+                            await RoleManager.CreateAsync(new AppRole(Roles.Study));
                         if (!roleCreate.Succeeded)
                         {
                             AddErrorsFromResult(roleCreate);
@@ -353,7 +640,7 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
                     else
                     {
                         user = await UserManager.FindByNameAsync(model.username);
-                        IdentityResult addToRole = await UserManager.AddToRoleAsync(user.Id, role);
+                        IdentityResult addToRole = await UserManager.AddToRolesAsync(user.Id, role, Roles.Study);
                         if (addToRole.Succeeded)
                             return user;
                         else
@@ -416,6 +703,15 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
                 return false;
         }
 
+        bool VerifyEnumData(AddCourseViewModel model)
+        {
+            bool semester = Enum.IsDefined(typeof(Semester), model.Semester);
+            bool level = Enum.IsDefined(typeof(Level), model.Level);
+            if (semester && level)
+                return true;
+            return false;
+        }
+
         bool VerifyIfCollegeExist(College model)
         {
             bool nameTest = _collegeService.GetAll().Any(x => x.Name.ToLower() == model.Name.ToLower());
@@ -426,7 +722,7 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
                 return false;
         }
 
-        private bool VerifyDepartmentEnum(Department model)
+        bool VerifyDepartmentEnum(Department model)
         {
             bool duration = Enum.IsDefined(typeof(Duration), model.Duration);
             if (duration)
@@ -434,12 +730,39 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
             return false;
         }
 
-        private bool VerifyUserEnum(UserCreateModel model)
+        Boolean VerifyIfCourseExist(AddCourseViewModel model)
+        {
+            bool code = _courseService.GetAll().Any(x => x.CourseCode.ToLower() == model.CourseCode.Trim().ToLower());
+            bool title = _courseService.GetAll().Any(x => x.CourseTitle.ToLower() == model.CourseTitle.Trim().ToLower());
+            if (code || title)
+                return true;
+            return false;
+        }
+
+        bool VerifyUserEnum(UserCreateModel model)
         {
             bool gender = Enum.IsDefined(typeof(Sex), model.Gender);
             if (gender)
                 return true;
             return false;
+        }
+
+        bool verifyLevelEnum(Level Level)
+        {
+            if (Enum.IsDefined(typeof(Level), Level))
+                return true;
+            return false;
+        }
+
+        public async Task<FileContentResult> LecturerImage(string RegNo)
+        {
+            Lecturer lecturer = await _lecturerService.GetByRegNoAsync(RegNo);
+            if (lecturer != null)
+            {
+                if (lecturer.AppUser.ImageMine != null)
+                    return File(lecturer.AppUser.ImageContent, lecturer.AppUser.ImageMine);
+            }
+            return null;
         }
 
         void PopulateDepartmentDropDownList(object selectedDepartment = null)
@@ -448,6 +771,55 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
                              orderby d.Name
                              select d;
             ViewBag.DepartmentID = new SelectList(department, "ID", "Name", selectedDepartment);
+        }
+
+        void PopulateLecturerAssignedCourses(Lecturer lecture)
+        {
+            var _department = _departmentService.GetAll().First(x => x.ID == lecture.DepartmentID);
+            IEnumerable<Course> AllCourses = _department.Courses.Where(x => x.DepartmentCode == _department.Title);
+            var lecturerCourses = new HashSet<long>(lecture.Courses.Select(c => c.ID));
+            var ViewModel = new List<AssignedCourseData>();
+            foreach (var course in AllCourses)
+            {
+                ViewModel.Add(new AssignedCourseData
+                {
+                    CourseID = course.ID,
+                    Title = course.CourseTitle,
+                    Assigned = lecturerCourses.Contains(course.ID),
+                    CourseCode = course.CourseCode,
+                    Unit = course.CreditLoad,
+                });
+            }
+            ViewBag.Courses = ViewModel;
+        }
+
+        void PopulateDepartmentAssignedCourses(Department department, string current)
+        {
+            var CurrentDepartment = _departmentService.GetAll().First(x => x.Title == current);
+            IEnumerable<Course> AllCourses = department.Courses.Where(c => c.DepartmentCode == department.Title);
+            var CurrentDepartmentCourses = new HashSet<long>(CurrentDepartment.Courses.Select(c => c.ID));
+            var ViewModel = new List<AssignedCourseData>();
+            foreach (var course in AllCourses)
+            {
+                ViewModel.Add(new AssignedCourseData
+                {
+                    CourseCode = course.CourseCode,
+                    CourseID = course.ID,
+                    Title = course.CourseTitle,
+                    Assigned = CurrentDepartmentCourses.Contains(course.ID),
+                    Unit = course.CreditLoad,
+                });
+            }
+            ViewBag.Courses = ViewModel;
+        }
+
+        public async Task<FileContentResult> Image()
+        {
+            AppUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+                if (user.ImageMine != null)
+                    return File(user.ImageContent, user.ImageMine);
+            return null;
         }
 
         void PopulateCollegeDropDownList(object selectedCollege = null)

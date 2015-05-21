@@ -6,11 +6,13 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace EasyLearning.WebUI.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         // GET: Account
@@ -43,13 +45,6 @@ namespace EasyLearning.WebUI.Controllers
                 AppUser user = await UserManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
-                    bool inRole = await UserManager.IsInRoleAsync(user.Id, Roles.Students);
-                    if (inRole)
-                    {
-                        bool isActicated = await UserManager.IsEmailConfirmedAsync(user.Id);
-                        if (!isActicated)
-                            return RedirectToAction("ConfirmEmail", "Students", new { userId = user.Id });
-                    }
                     //ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                     //AuthManager.SignOut();
                     //AuthManager.SignIn(new AuthenticationProperties()
@@ -90,18 +85,13 @@ namespace EasyLearning.WebUI.Controllers
         async Task<ActionResult> RedirectBasedOnUserRole(AppUser user)
         {
             IList<string> userroles = await UserManager.GetRolesAsync(user.Id);
-            string role = userroles.Remove(Roles.Study).ToString();
-            switch (role)
-            {
-                case Roles.Admin:
-                    return RedirectToAction("Index", "office", new { area = "adminsecured" });
-                case Roles.Students:
-                    return RedirectToAction("Index", "student", new { area = "student" });
-                case Roles.Lecturer:
-                    return RedirectToAction("Index", "office", new { area = "lecturer" });
-                default:
-                    return RedirectToAction("Logout", "Account");
-            }
+            if (await UserManager.IsInRoleAsync(user.Id, Roles.Admin))
+                return RedirectToAction("Index", "office", new { area = "adminsecured" });
+            else if (await UserManager.IsInRoleAsync(user.Id, Roles.Students))
+                return RedirectToAction("Index", "student", new { area = "student" });
+            else if (await UserManager.IsInRoleAsync(user.Id, Roles.Lecturer))
+                return RedirectToAction("Index", "office", new { area = "lecturer" });
+            else return RedirectToAction("Logout", "Account");
         }
 
         public ActionResult Logout()

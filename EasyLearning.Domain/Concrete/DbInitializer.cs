@@ -45,7 +45,7 @@ namespace EasyLearning.Domain.Concrete
                     MiddleName = Owner.MiddleName,
                     State = Owner.state,
                     UserName = Owner.UserName,
-                });
+                }, Owner.Password);
                 user = usermanager.FindByName(Owner.UserName);
             }
 

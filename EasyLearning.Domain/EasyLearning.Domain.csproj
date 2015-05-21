@@ -152,6 +152,9 @@
     </Compile>
     <Compile Include="Entity\Student.cs" />
     <Compile Include="Entity\Study.cs" />
+    <Compile Include="Generate\LecturerRegNoGen.cs" />
+    <Compile Include="Generate\RegNoGen.cs" />
+    <Compile Include="Generate\StudentRegNoGen.cs" />
     <Compile Include="Identity\AppRole.cs" />
     <Compile Include="Identity\AppRoleManager.cs" />
     <Compile Include="Identity\AppSignInManager.cs" />
@@ -159,6 +162,10 @@
     <Compile Include="Migrations\201505191416284_Initial.cs" />
     <Compile Include="Migrations\201505191416284_Initial.Designer.cs">
       <DependentUpon>201505191416284_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505211109269_changes.cs" />
+    <Compile Include="Migrations\201505211109269_changes.Designer.cs">
+      <DependentUpon>201505211109269_changes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Owner.cs" />
@@ -173,9 +180,7 @@
     <Compile Include="Service\StudentService.cs" />
     <Compile Include="Service\StudyService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Generate\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
@@ -183,6 +188,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201505191416284_Initial.resx">
       <DependentUpon>201505191416284_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505211109269_changes.resx">
+      <DependentUpon>201505211109269_changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

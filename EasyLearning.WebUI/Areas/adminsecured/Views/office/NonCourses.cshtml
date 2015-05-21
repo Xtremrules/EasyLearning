@@ -1,0 +1,95 @@
+﻿@using EasyLearning.WebUI.Areas.adminsecured.Models;
+@using EasyLearning.Domain.Entity;
+@model Department
+
+@{
+    ViewBag.Title = "department";
+}
+
+
+<div>
+    <section class="content-header">
+        <h1>
+            @Model.Name
+            <small> Select courses</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Courses</a></li>
+            <li class="active">Add</li>
+        </ol>
+    </section>
+    <section class="content">
+        @using (Html.BeginForm())
+        {
+            @Html.Hidden("Title", Model.Title)
+            @Html.Hidden("Current", (string)ViewBag.Current)
+            @Html.AntiForgeryToken()
+            List<AssignedCourseData> courses = ViewBag.Courses;
+            int courseCount = 0;
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Add Courses</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <table class="table table-responsive table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Course Title</th>
+                                        <th>Course Code</th>
+                                        <th>Unit</th>
+                                        <th>Assign</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var course in courses)
+                                    {
+                                        <tr>
+
+                                            <td>@(++courseCount)</td>
+                                            <td>@Html.DisplayFor(x => course.Title)</td>
+                                            <td>@Html.DisplayFor(x => course.CourseCode)</td>
+                                            <td>@Html.DisplayFor(x => course.Unit)</td>
+                                            <td>
+                                                <label class="checkbox icheck">
+                                                    <input type="checkbox" name="selectedCourses"
+                                                           value="@course.CourseID"
+                                                           @(Html.Raw(course.Assigned ? "checked=\"checked\"" : "")) />
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer">
+                            <div class="form-group">
+                                <button class="btn btn-flat btn-primary" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
+</div>
+@section Styles{
+<link href="~/Scripts/iCheck/square/blue.css" rel="stylesheet" />
+}
+
+@section Scripts{
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+    <script>
+        jQuery("body").addClass("login-page");
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
+}

@@ -44,13 +44,13 @@ namespace EasyLearning.Domain.Concrete
                 .WithMany(x => x.Courses)
                 .Map(x => x.MapLeftKey("CourseID")
                 .MapRightKey("StudentRegNo")
-                .ToTable("CourseStudents"));
+                .ToTable("StudentCourses"));
 
             modelBuilder.Entity<Course>().HasMany(x => x.Lecturers)
                 .WithMany(x => x.Courses)
                 .Map(x => x.MapLeftKey("CourseID")
                 .MapRightKey("LecturerRegNo")
-                .ToTable("CourseLecturers"));
+                .ToTable("LecturerCourses"));
 
             modelBuilder.Entity<Comment>().HasMany(x => x.Replies).WithRequired(x => x.Comment).WillCascadeOnDelete(false);
 

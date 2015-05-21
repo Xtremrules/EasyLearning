@@ -23,7 +23,7 @@ namespace EasyLearning.WebUI
             bundles.Add(new StyleBundle("~/Content/admin").Include(
                 "~/dist/css/skins/_all-skins.min.css",
                 "~/dist/css/AdminLTE.min.css"));
-            BundleTable.EnableOptimizations = true;
+            //BundleTable.EnableOptimizations = true;
         }
     }
 }

@@ -1,0 +1,86 @@
+﻿@model EasyLearning.WebUI.Areas.adminsecured.Models.AddCourseViewModel
+
+@{
+    ViewBag.Title = "Add Course";
+}
+
+
+<section class="content-header">
+    <h1>
+        Courses
+        <small>Add new course</small>
+    </h1>
+</section>
+
+<section class="content">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.ID)
+        <div class="row">
+            <div class="col-sm-offset-4 col-md-offset-4 col-sm-4 col-md-4">
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        @TempData["error"]
+                    </div>
+                }
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(model => model.CourseTitle)
+                    @Html.EditorFor(model => model.CourseTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-align-justify form-control-feedback"></span>
+                    @Html.ValidationMessageFor(model => model.CourseTitle, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(model => model.CourseCode)
+                    @Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-align-left form-control-feedback"></span>
+                    @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(model => model.CreditLoad)
+                    @Html.EditorFor(model => model.CreditLoad, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreditLoad, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(model => model.Level)
+                    @Html.EnumDropDownListFor(model => model.Level, "Select Level", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Level, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(model => model.Semester)
+                    @Html.EnumDropDownListFor(model => model.Semester, "Select Semester", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Semester, "", new { @class = "text-danger" })
+                </div>
+
+                @* Department *@
+                <div class="form-group has-feedback">
+                    @Html.Label("Department")
+                    @Html.DropDownList("DepartmentID", null, "Select A Department", new { @class = "form-control" })
+                    @*<span class="glyphicon glyphicon-align-left form-control-feedback"></span>*@
+                    @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info btn-block btn-flat">Create</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    @*<div>
+            @Html.ActionLink("Back to Courses", "courses")
+        </div>*@
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

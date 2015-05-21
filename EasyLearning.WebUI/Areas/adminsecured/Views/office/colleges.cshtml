@@ -1,0 +1,82 @@
+﻿@using EasyLearning.Domain.Entity;
+@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<College>
+
+@{
+    ViewBag.Title = "colleges";
+}
+
+<section class="content-header">
+    <h1>
+        College
+        <small>All Colleges</small>
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    @TempData["error"]
+                </div>
+            }
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                    @TempData["success"]
+                </div>
+            }
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">All Colleges</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <table class="table table-hover table-responsive">
+                        @if (Model.Count() == 0)
+                        {
+                            @: No College to display
+                        }
+                        else
+                        {
+                            int collegeCount = 0;
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Date Created</th>
+                                    <th>Departments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var college in Model)
+                                {
+                                    <tr>
+                                        <td> @(++collegeCount)</td>
+                                        <td> <a href="@Url.Action("colleges", new { id = college.Title })">@college.Name</a> </td>
+                                        <td> @college.Title</td>
+                                        <td> @college.CreatedDate.ToShortDateString()</td>
+                                        <td> @Html.ActionLink("View", "departments", new { id = college.Title }, new { @class = "btn btn-sm btn-primary" })</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+                    </table>
+                    <div class="pad">
+                        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                        @Html.PagedListPager(Model, page => Url.Action("colleges", new { page }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section styles{
+    <link type="text/css" href="~/Content/PagedList.css" rel="stylesheet" />
+}

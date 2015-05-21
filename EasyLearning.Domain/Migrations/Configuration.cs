@@ -58,7 +58,7 @@ namespace EasyLearning.Domain.Migrations
                     MiddleName = Owner.MiddleName,
                     State = Owner.state,
                     UserName = Owner.UserName,
-                });
+                }, Owner.Password);
                 user = usermanager.FindByName(Owner.UserName);
             }
 

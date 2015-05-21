@@ -1,0 +1,95 @@
+﻿@using EasyLearning.Domain.Entity;
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<Department>
+@{
+    ViewBag.Title = "departments";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.current
+        <small>All Departments</small>
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">All Departments</h3>
+                </div>
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        @TempData["error"]
+                    </div>
+                }
+                @if (TempData["success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                        @TempData["success"]
+                    </div>
+                }
+                <div class="box-body no-padding">
+                    @if (Model.Count() == 0)
+                    {
+                        <span class="pad">No Department added</span>
+                    }
+                    else
+                    {
+                        int departCount = 0;
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Duration</th>
+                                    <th>Lecturers</th>
+                                    <th>Course</th>
+                                    <th>Students</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var department in Model)
+                                {
+                                    <tr>
+                                        <td> @(++departCount)</td>
+                                        <td> @Html.ActionLink(department.Name, "department", new { id = department.Title }) </td>
+                                        <td> @department.Title</td>
+                                        <td>@Html.DisplayFor(x => department.Duration) Years</td>
+                                        <td>
+                                            @Html.ActionLink("View", "Lecturers", new { id = department.Title }, new { @class = "btn btn-sm btn-primary" })
+                                            <span class="badge">@department.Lecturers.Count</span>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("courses", new { id = department.Title })" class="btn btn-flat btn-info">Courses</a>
+                                            <span class="badge">@department.Courses.Count</span>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("students", new { id = department.Title })" class="btn btn-flat btn-info">Courses</a>
+                                            <span class="badge">@department.Students.Count</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="pad">
+                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                            @Html.PagedListPager(Model, page => Url.Action("departments", new { page }))
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section styles{
+    <link type="text/css" href="~/Content/PagedList.css" rel="stylesheet" />
+}

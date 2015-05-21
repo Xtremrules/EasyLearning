@@ -1,0 +1,81 @@
+﻿@using EasyLearning.Domain.Entity;
+@model Course
+
+@{
+    ViewBag.Title = "course";
+}
+
+<div>
+    <section class="content-header">
+        <h1>
+            @Model.CourseTitle
+            <small> Assigned Lecturers</small>
+        </h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        @TempData["error"]
+                    </div>
+                }
+                @if (TempData["success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                        @TempData["success"]
+                    </div>
+                }
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">All Lecturers</h3>
+                        @*@if (Model.DepartmentCode == ViewBag.DepartmentCode)
+                        {
+                            <h5 class="pull-right"><a href="@Url.Action("assign-lecturer", new { Title = Model.CourseCode })">Add/Remove</a></h5>
+                        }*@
+                    </div>
+                    <div class="box-body no-padding">
+                        @if (Model.Lecturers.Count() == 0)
+                        {
+                            <span class="pad">No Lecturer Is currently Teaching this Course</span>
+                        }
+                        else
+                        {
+                            int lectCount = 0;
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        @*<th>Reg No</th>*@
+                                        <th>Department</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var lecturer in Model.Lecturers)
+                                    {
+                                        <tr>
+                                            <td> @(++lectCount)</td>
+                                            <td>
+                                                @Html.DisplayFor(x => lecturer.AppUser.FullName)
+                                            </td>
+
+                                            @*<td> @lecturer.RegNo</td>*@
+                                            <td> @lecturer.Department.Name</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

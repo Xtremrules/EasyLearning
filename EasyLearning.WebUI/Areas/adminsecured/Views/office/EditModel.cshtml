@@ -1,0 +1,62 @@
+﻿@model EasyLearning.WebUI.Areas.adminsecured.Models.EditViewModel
+@{
+    string action = ViewBag.currentAction;
+}
+
+@using (Html.BeginForm(action, "office", FormMethod.Post, new { id = "postEidt" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <div class="row">
+        <div class="col-md-8 col-sm-8">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*@if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        @TempData["error"]
+                    </div>
+                }*@
+
+            <div class="form-group has-feedback">
+                @Html.LabelFor(x => x.Name)
+                @Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Name" } })
+                @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group has-feedback">
+                @Html.LabelFor(x => x.Title)
+                @Html.EditorFor(x => x.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Title" } })
+                @Html.ValidationMessageFor(x => x.Title, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-flat" id=""><i class="fa fa-recycle"></i>Update</button>
+                <button type="button" class="btn btn-info btn-flat" id="cancelEdit">Cancel</button>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+            $("#postEidt").submit(function () {
+                alert("Just Started");
+                $.ajax({
+                    Type: "POST",
+                    url: "@Url.Action(action)",
+                }).success(function (data) {
+                    //$("#edit").html(data);
+                    location.reload(true);
+                }).error(function (request, error) {
+                    $("#edit").html(request);
+                })
+            });
+
+            $("#cancelEdit").click(function () {
+                $("#edit").hide();
+            })
+        });
+    </script>
+}

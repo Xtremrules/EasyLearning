@@ -1,0 +1,135 @@
+﻿@model EasyLearning.Domain.Entity.Department
+
+@{
+    //AjaxOptions ajaxOpts = new AjaxOptions()
+    //{
+    //    HttpMethod = "Get",
+    //    InsertionMode = InsertionMode.ReplaceWith,
+    //    //OnBegin = "onBegin",
+    //    //OnSuccess = "onSuccess",
+    //    Url = Url.Action("add-dean", "office", new { id = Model.ID }),
+    //    OnFailure = "onFailure",
+    //    UpdateTargetId = "add-dean",
+    //    //OnComplete = "onComplete",
+    //    //Confirm = "Are you sure of Your Selection"
+    //};
+    ViewBag.Title = "College: " + Model.Title;
+}
+
+<section class="content-header">
+    <h1>
+        Department
+        <small>@Model.Title</small>
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(x => x.Duration)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(x => x.Duration) Years
+                    </dd>
+
+                    <dt>@Html.DisplayName("No of Lecturers")</dt>
+                    <dd>
+                        @Html.DisplayFor(x => x.Lecturers.Count)
+                    </dd>
+                    <dt>@Html.DisplayName("No of Courses")</dt>
+                    <dd>
+                        @Html.DisplayFor(x => x.Courses.Count)
+                    </dd>
+
+                    <dt>@Html.DisplayName("No of Students")</dt>
+                    <dd>
+                        @Html.DisplayFor(x => x.Students.Count)
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div id="hodPanel" style="display:none;"></div>
+            <div id="edit" style="display:none;"></div>
+        </div>
+    </div>
+
+    <p>
+        @*<button class="btn btn-primary btn-flat" id="sendEdit">Edit</button>*@
+        <a href="@Url.Action("courses", new { id = Model.Title })" class="btn btn-flat btn-primary">Courses</a> |
+        @Html.ActionLink("Lectures", "lecturers", new { id = Model.Title }, new { @class = "btn btn-info btn-flat" }) |
+        <a class="btn btn-flat btn-warning" href="@Url.Action("add-drop-courses", new { current = Model.Title })">Add/Drop Non Departmental Courses</a>
+    </p>
+</section>
+@section scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#add-hod").click(function () {
+                $.ajax({
+                    Type: "Get",
+                    url: "@Url.Action("add-hod", new { id = Model.ID })",
+                    //data: 'html',
+                    contentType: 'application/html; charset=utf-8',
+                    success: function (result) {
+                        $('#hodPanel').show();
+                        $('#hodPanel').html(result);
+                    }
+                });
+            });
+            $("#sendEdit").click(function () {
+                $.ajax({
+                    Type: "Get",
+                    url: "@Url.Action("EditDepartment", new { id = Model.ID })",
+                    contentType: "application/html; charset=utf-8",
+                    success: function (result) {
+                        $("#edit").show();
+                        $("#edit").html(result);
+                    }
+                });
+            });
+
+
+
+        });
+
+        //function OnBegin() {
+        //    alert("This is the OnBegin Callback");
+        //}
+        //function OnSuccess(data) {
+        //    alert("This is the OnSuccessCallback: " + data);
+        //}
+        function OnFailure(request, error) {
+            //alert("This is the OnFailure Callback:" + error);
+            location.reload(true);
+
+        }
+        //function OnComplete(request, status) {
+        //    alert("This is the OnComplete Callback: " + status);
+        //}
+    </script>
+}

@@ -1,0 +1,117 @@
+﻿@model EasyLearning.Domain.Entity.College
+
+@{
+    //AjaxOptions ajaxOpts = new AjaxOptions()
+    //{
+    //    HttpMethod = "Get",
+    //    InsertionMode = InsertionMode.ReplaceWith,
+    //    //OnBegin = "onBegin",
+    //    //OnSuccess = "onSuccess",
+    //    Url = Url.Action("add-dean", "office", new { id = Model.ID }),
+    //    OnFailure = "onFailure",
+    //    UpdateTargetId = "add-dean",
+    //    //OnComplete = "onComplete",
+    //    //Confirm = "Are you sure of Your Selection"
+    //};
+    ViewBag.Title = "College: " + Model.Title;
+}
+
+<section >
+    <h1>
+        College
+        <small>@Model.Title</small>
+    </h1>
+    
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+                    
+                    <dt>@Html.DisplayName("No of Department")</dt>
+                    <dd>
+                        @Html.DisplayFor(x => x.Departments.Count)
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div id="deanPanel" style="display:none;"></div>
+            <div id="edit" style="display:none;"></div>
+        </div>
+    </div>
+
+
+
+    <p>
+        <button class="btn btn-primary btn-flat" id="sendEdit">Edit</button>  |
+        @Html.ActionLink("Colleges", "colleges", new { id = "" }, new { @class = "btn btn-info btn-flat" })
+    </p>
+</section>
+@section scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#add-dean").click(function () {
+                $.ajax({
+                    Type: "Get",
+                    url: "@Url.Action("add-dean", new { id = Model.ID })",
+                    //data: 'html',
+                    contentType: 'application/html; charset=utf-8',
+                    success: function (result) {
+                        $('#deanPanel').show();
+                        $('#deanPanel').html(result);
+                    }
+                });
+            });
+
+            $("#sendEdit").click(function () {
+                $.ajax({
+                    Type: "Get",
+                    url: "@Url.Action("EditCollege", new { id = Model.ID })",
+                    contentType: "application/html; charset=utf-8",
+                    success: function (result) {
+                        $("#edit").show();
+                        $("#edit").html(result);
+                    }
+                });
+            });
+        });
+
+
+        //function OnBegin() {
+        //    alert("This is the OnBegin Callback");
+        //}
+        //function OnSuccess(data) {
+        //    alert("This is the OnSuccessCallback: " + data);
+        //}
+        function OnFailure(request, error) {
+            //alert("This is the OnFailure Callback:" + error);
+            location.reload(true);
+
+        }
+        //function OnComplete(request, status) {
+        //    alert("This is the OnComplete Callback: " + status);
+        //}
+    </script>
+}
