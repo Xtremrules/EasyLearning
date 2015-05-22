@@ -10,9 +10,11 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using PagedList;
 using EasyLearning.Domain.Entity;
+using EasyLearning.Domain.Models;
 
 namespace EasyLearning.WebUI.Areas.student.Controllers
 {
+    [Authorize(Roles = Roles.Students)]
     public class studentController : Controller
     {
         ICollegeService _collegeService;

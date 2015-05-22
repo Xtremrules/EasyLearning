@@ -273,7 +273,6 @@
     <Content Include="Perusal\Main.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Areas\Study\Views\web.config" />
     <Content Include="Areas\adminsecured\Views\_ViewStart.cshtml" />
     <Content Include="Areas\adminsecured\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\adminsecured\Views\office\Index.cshtml" />
@@ -303,6 +302,11 @@
     <Content Include="Areas\student\Views\_ViewStart.cshtml" />
     <Content Include="Areas\student\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\student\Views\student\courses.cshtml" />
+    <Content Include="Areas\Studies\Views\web.config" />
+    <Content Include="Areas\lecturer\Views\office\Studies.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\courses.cshtml" />
+    <Content Include="Areas\student\Views\student\Studies.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\AddStudy.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\iCheck\all.css" />
     <Content Include="Scripts\iCheck\flat\aero%402x.png" />
@@ -450,7 +454,7 @@
     <Compile Include="Areas\lecturer\lecturerAreaRegistration.cs" />
     <Compile Include="Areas\student\Controllers\studentController.cs" />
     <Compile Include="Areas\student\studentAreaRegistration.cs" />
-    <Compile Include="Areas\Study\StudyAreaRegistration.cs" />
+    <Compile Include="Areas\Studies\StudiesAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -484,9 +488,12 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\lecturer\Models\" />
     <Folder Include="Areas\student\Models\" />
-    <Folder Include="Areas\Study\Controllers\" />
-    <Folder Include="Areas\Study\Models\" />
-    <Folder Include="Areas\Study\Views\Shared\" />
+    <Folder Include="Areas\Studies\Controllers\" />
+    <Folder Include="Areas\Studies\Models\" />
+    <Folder Include="Areas\Studies\Views\Shared\" />
+    <Folder Include="Assignments\" />
+    <Folder Include="Materials\" />
+    <Folder Include="Study Videos\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyLearning.Domain\EasyLearning.Domain.csproj">

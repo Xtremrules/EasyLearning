@@ -1,5 +1,6 @@
 ﻿using EasyLearning.Domain.Abstract;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace EasyLearning.Domain.Entity
 {
@@ -7,6 +8,7 @@ namespace EasyLearning.Domain.Entity
     {
         [Required]
         public long CommentID { get; set; }
+        [AllowHtml, DataType(DataType.MultilineText)]
         public string Content { get; set; }
         [Required]
         public string AppUserID { get; set; }

@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 
-namespace EasyLearning.WebUI.Areas.Study
+namespace EasyLearning.WebUI.Areas.Studies
 {
-    public class StudyAreaRegistration : AreaRegistration 
+    public class StudiesAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {

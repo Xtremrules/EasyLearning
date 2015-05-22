@@ -167,6 +167,14 @@
     <Compile Include="Migrations\201505211109269_changes.Designer.cs">
       <DependentUpon>201505211109269_changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505221236319_download.cs" />
+    <Compile Include="Migrations\201505221236319_download.Designer.cs">
+      <DependentUpon>201505221236319_download.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505221429071_forView.cs" />
+    <Compile Include="Migrations\201505221429071_forView.Designer.cs">
+      <DependentUpon>201505221429071_forView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Owner.cs" />
     <Compile Include="Models\Roles.cs" />
@@ -191,6 +199,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505211109269_changes.resx">
       <DependentUpon>201505211109269_changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505221236319_download.resx">
+      <DependentUpon>201505221236319_download.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505221429071_forView.resx">
+      <DependentUpon>201505221429071_forView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

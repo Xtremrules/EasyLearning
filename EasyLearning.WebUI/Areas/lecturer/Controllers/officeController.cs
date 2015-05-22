@@ -9,7 +9,9 @@ using EasyLearning.Domain.Models;
 using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace EasyLearning.WebUI.Areas.lecturer.Controllers
 {
@@ -45,15 +47,103 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
             return View();
         }
 
-        //public ActionResult courses(int? id, int? page)
-        //{
-        //    int pageSize = 10;
-        //    int pageNumber = page ?? 1;
-        //    if (id == null)
-        //    {
-                
-        //    }
-        //}
+        public ActionResult courses(int? page)
+        {
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+            var courses = _lecturerService.GetAll().First(x => x.AppUserID == User.Identity.GetUserId()).Courses;
+            return View(courses.ToPagedList(pageNumber, pageSize));
+        }
+
+        public async Task<ActionResult> Studies(int? id, int? page)
+        {
+            if (id != null)
+            {
+                int pageSize = 10;
+                int pageNumber = page ?? 1;
+                var course = await _courseService.GetByIdAsync((long)id.Value);
+                ViewBag.Current = course.CourseCode;
+                ViewBag.CourseID = course.ID;
+                var studies = course.Studies.Where(x => x.CreatedBy == User.Identity.Name);
+                return View(studies.ToPagedList(pageNumber, pageSize));
+            }
+            return RedirectToAction("courses");
+        }
+
+        public ActionResult AddStudy(int? id)
+        {
+            if (id != null)
+            {
+                Study model = new Study { CourseID = id.Value };
+                ViewBag.Current = _courseService.GetAll().First(x => x.ID == id.Value).CourseTitle;
+                return View(model);
+            }
+            return RedirectToAction("courses");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddStudy(Study model, HttpPostedFileBase video = null, HttpPostedFileBase material = null)
+        {
+            if (ModelState.IsValid)
+            {
+                string newVideoPath = "";
+                string newMaterialPath = "";
+                string StudyVideoPath = "~/Study Videos";
+                string studyMaterialPath = "~/Materials";
+                bool validVideo =  VideoIsValid(video);
+                bool materIsValid = MaterialIsValid(material);
+                if (validVideo)
+                {
+                    if (!Directory.Exists(Server.MapPath(StudyVideoPath)))
+                        Directory.CreateDirectory(Server.MapPath(StudyVideoPath));
+
+                    var videoPath = Path.Combine(Server.MapPath(StudyVideoPath), Guid.NewGuid().ToString() + " " + video.FileName);
+                    video.SaveAs(videoPath);
+
+                    videoPath = videoPath.Substring(videoPath.LastIndexOf("\\"));
+                    string[] splitVideoPath = videoPath.Split('\\');
+                    newVideoPath = splitVideoPath[1];
+                    newVideoPath = StudyVideoPath + "/" + newVideoPath;
+
+                    model.VideoName = video.FileName;
+                    model.VideoType = video.ContentType;
+                    model.VideoUrl = newVideoPath;
+                }
+                if (materIsValid)
+                {
+                    if (!Directory.Exists(Server.MapPath(studyMaterialPath)))
+                        Directory.CreateDirectory(Server.MapPath(studyMaterialPath));
+
+                    var materialPath = Path.Combine(Server.MapPath(studyMaterialPath), Guid.NewGuid().ToString() + " " + material.FileName);
+                    material.SaveAs(materialPath);
+
+                    materialPath = materialPath.Substring(materialPath.LastIndexOf("\\"));
+                    string[] splitMaterialPath = materialPath.Split('\\');
+                    newMaterialPath = splitMaterialPath[1];
+                    newMaterialPath = studyMaterialPath + "/" + newMaterialPath;
+
+                    model.NoteName = material.FileName;
+                    model.NoteType = material.ContentType;
+                    model.NoteUrl = newMaterialPath;
+                }
+
+                try
+                {
+                    await _studyService.CreateAsync(model);
+                    TempData["success"] = "The study was created successfully";
+                    return RedirectToAction("studies", new { id = model.CourseID });
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+            }
+            System.IO.File.Delete(Server.MapPath(model.NoteUrl));
+            System.IO.File.Delete(Server.MapPath(model.VideoUrl));
+            //return File(Server.MapPath(newVideoPath), video.ContentType, video.FileName);
+            return View(model);
+        }
 
         public async Task<FileContentResult> Image()
         {
@@ -62,6 +152,24 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
                 if (user.ImageMine != null)
                     return File(user.ImageContent, user.ImageMine);
             return null;
+        }
+
+        bool VideoIsValid(HttpPostedFileBase video)
+        {
+            if (video != null)
+            {
+                if (video.ContentType.Contains("video") && video.ContentLength > 0)
+                    return true;
+            }
+            return false;
+        }
+
+        bool MaterialIsValid(HttpPostedFileBase material)
+        {
+            if (material != null)
+                if (material.ContentLength > 0 && (material.FileName.Contains(".docx") || material.FileName.Contains(".pdf") || material.FileName.Contains("doc")))
+                    return true;
+            return false;
         }
 
         AppUserManager UserManager

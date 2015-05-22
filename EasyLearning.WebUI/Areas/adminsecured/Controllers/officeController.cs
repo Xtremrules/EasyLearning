@@ -444,7 +444,7 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
                     {
                         if (VerifyImage(image))
                         {
-                            AppUser user = await CreateUserAsync(model, Roles.Lecturer, image);
+                            AppUser user = await CreateUserAsync(model, Roles.Students, image);
                             if (user != null)
                             {
                                 Student student = new Student

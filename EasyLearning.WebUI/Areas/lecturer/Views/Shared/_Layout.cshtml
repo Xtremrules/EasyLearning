@@ -94,48 +94,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                         </a>
                     </li>
-
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-gavel"></i> <span>Colleges</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="@Url.Action("colleges", new { id = "" })"><i class="ion ion-android-apps"></i>Colleges</a></li>
-                            <li><a href="@Url.Action("add-college")"><i class="ion ion-android-add"></i>Add College</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-table"></i> <span>Departments</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="@Url.Action("departments", new { id = "" })"><i class="ion ion-alert"></i>Departments</a></li>
-                            <li><a href="@Url.Action("add-department", new { id = "" })"><i class="ion ion-android-add"></i>Add Department</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-group"></i> <span>Lecturers</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="@Url.Action("lecturers", new { id = "" })"><i class="ion ion-alert"></i>Lecturers</a></li>
-                            <li><a href="@Url.Action("add-lecturer", new { id = "" })"><i class="ion ion-android-add"></i>Add Lecturer</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="ion ion-person"></i> <span>Students</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="@Url.Action("students", new { id = "" })"><i class="ion ion-alert"></i>Students</a></li>
-                            <li><a href="@Url.Action("add-student", new { id = "" })"><i class="ion ion-android-add"></i>Add Student</a></li>
-                        </ul>
-                    </li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-life-bouy"></i> <span>Courses</span>
@@ -146,6 +104,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <li><a href="@Url.Action("add-course", new { id = "" })"><i class="ion ion-android-add"></i>Add Course</a></li>
                         </ul>
                     </li>
+                    
+                    
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="ion ion-person"></i> <span>Studies</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Studies", new { id = "" })"><i class="ion ion-alert"></i>Studies</a></li>
+                            <li><a href="@Url.Action("AddStudy", new { id = "" })"><i class="ion ion-android-add"></i>Add Study</a></li>
+                        </ul>
+                    </li>
+                    
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
