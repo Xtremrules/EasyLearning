@@ -1,0 +1,46 @@
+﻿@*<div class="direct-chat-msg">
+    <div class="direct-chat-info clearfix">
+        <span class="direct-chat-name pull-left">@Html.GetFullName(User.Identity.Name)</span>
+        <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+    </div><!-- /.direct-chat-info -->
+    <img class="direct-chat-img" src="@Url.Action("CommentImage",new {username = User.Identity.Name})" alt="message user image"><!-- /.direct-chat-img -->
+    <div class="direct-chat-text">
+        Is this template really for free? That's unbelievable!
+    </div><!-- /.direct-chat-text -->
+</div><!-- /.direct-chat-msg -->
+<!-- Message to the right -->
+<div class="direct-chat-msg right">
+    <div class="direct-chat-info clearfix">
+        <span class="direct-chat-name pull-right">Sarah Bullock</span>
+        <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
+    </div><!-- /.direct-chat-info -->
+    <img class="direct-chat-img" src="../dist/img/user3-128x128.jpg" alt="message user image"><!-- /.direct-chat-img -->
+    <div class="direct-chat-text">
+        You better believe it!
+    </div><!-- /.direct-chat-text -->
+</div>*@
+
+@model IEnumerable<EasyLearning.Domain.Entity.Comment>
+
+@if (Model.Count() == 0)
+{
+    <div class="pad">
+        <p class="h2">No Comments Yet</p>
+    </div>
+}
+else
+{
+    foreach (var comment in Model)
+    {
+        <div class="direct-chat-msg">
+            <div class="direct-chat-info clearfix">
+                <span class="direct-chat-name pull-left">@Html.GetFullName(comment.CreatedBy)</span>
+                <span class="direct-chat-timestamp pull-right">@comment.CreatedDate.Date</span>
+            </div><!-- /.direct-chat-info -->
+            <img class="direct-chat-img" src="@Url.Action("CommentImage", new { username = comment.CreatedBy })" alt="message user image"><!-- /.direct-chat-img -->
+            <div class="direct-chat-text">
+                @comment.Content @*<p><a id="reply"><i class="fa fa-reply"></i></a></p>*@
+            </div><!-- /.direct-chat-text -->
+        </div>
+    }
+}

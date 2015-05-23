@@ -20,7 +20,10 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Studies</h3>
-                    <h5 class="pull-right"><a href="@Url.Action("AddStudy", new { id = ViewBag.CourseID })">Add new</a></h5>
+                    @if (ViewBag.CourseID != null)
+                    {
+                        <h5 class="pull-right"><a href="@Url.Action("AddStudy", new { id = ViewBag.CourseID })">Add new</a></h5>
+                    }
                 </div>
 
                 <div class="box-body no-padding">
@@ -36,6 +39,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Title</th>
+                                    <th>Course Code</th>
+                                    <th>Lecturer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,6 +49,8 @@
                                     <tr>
                                         <td> @(++courseCount)</td>
                                         <td> <a href="@Url.Action("study", new { id = study.ID })" class="btn btn-default">@Html.DisplayFor(x => study.Name)</a></td>
+                                        <td>@study.Course.CourseCode</td>
+                                        <td>@Html.GetFullName(study.CreatedBy)</td>
                                     </tr>
                                 }
                             </tbody>

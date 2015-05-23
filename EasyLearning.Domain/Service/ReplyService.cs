@@ -20,7 +20,7 @@ namespace EasyLearning.Domain.Service
 
         public override IEnumerable<Reply> GetAll()
         {
-            return _context.Replies.Include(x => x.AppUser)
+            return _context.Replies
                 .Include(x => x.Comment).ToList();
         }
     }

@@ -44,36 +44,53 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.dashboard = "active";
             return View();
         }
 
         public ActionResult courses(int? page)
         {
+            ViewBag.course = "active";
             int pageSize = 10;
             int pageNumber = page ?? 1;
             var courses = _lecturerService.GetAll().First(x => x.AppUserID == User.Identity.GetUserId()).Courses;
             return View(courses.ToPagedList(pageNumber, pageSize));
         }
 
-        public async Task<ActionResult> Studies(int? id, int? page)
+        public ActionResult study(int? id)
         {
+            ViewBag.studies = "active";
             if (id != null)
             {
-                int pageSize = 10;
-                int pageNumber = page ?? 1;
+                var study = _studyService.GetAll().First(x => x.ID == id.Value);
+                return View(study);
+            }
+            return RedirectToAction("studies");
+        }
+
+        public async Task<ActionResult> Studies(int? id, int? page)
+        {
+            ViewBag.studies = "active";
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+            if (id != null)
+            {
                 var course = await _courseService.GetByIdAsync((long)id.Value);
                 ViewBag.Current = course.CourseCode;
                 ViewBag.CourseID = course.ID;
                 var studies = course.Studies.Where(x => x.CreatedBy == User.Identity.Name);
                 return View(studies.ToPagedList(pageNumber, pageSize));
             }
-            return RedirectToAction("courses");
+            ViewBag.Current = "All Studies";
+            var AllStudies = _studyService.GetAll().Where(x => x.CreatedBy == User.Identity.Name);
+            return View(AllStudies.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult AddStudy(int? id)
         {
             if (id != null)
             {
+                ViewBag.studies = "active";
                 Study model = new Study { CourseID = id.Value };
                 ViewBag.Current = _courseService.GetAll().First(x => x.ID == id.Value).CourseTitle;
                 return View(model);
@@ -82,15 +99,48 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddComment(Comment model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _commentService.CreateAsync(model);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+            return RedirectToAction("study", new { id = model.StudyID });
+        }
+
+        public async Task<ActionResult> course(int? id)
+        {
+            ViewBag.course = "active";
+            if (id != null)
+            {
+                var course = await _courseService.GetByIdAsync(id.Value);
+                if (course != null)
+                {
+                    return View(course);
+                }
+            }
+            return RedirectToAction("courses");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> AddStudy(Study model, HttpPostedFileBase video = null, HttpPostedFileBase material = null)
         {
+            ViewBag.studies = "active";
             if (ModelState.IsValid)
             {
                 string newVideoPath = "";
                 string newMaterialPath = "";
                 string StudyVideoPath = "~/Study Videos";
                 string studyMaterialPath = "~/Materials";
-                bool validVideo =  VideoIsValid(video);
+                bool validVideo = VideoIsValid(video);
                 bool materIsValid = MaterialIsValid(material);
                 if (validVideo)
                 {
@@ -135,7 +185,7 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
                 }
                 catch (Exception)
                 {
-                    
+
                     throw;
                 }
             }
@@ -170,6 +220,36 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
                 if (material.ContentLength > 0 && (material.FileName.Contains(".docx") || material.FileName.Contains(".pdf") || material.FileName.Contains("doc")))
                     return true;
             return false;
+        }
+
+        public async Task<ActionResult> Video(int? id)
+        {
+            if (id != null)
+            {
+                var study = await _studyService.GetByIdAsync(id.Value);
+                if (study != null)
+                    return File(Server.MapPath(study.VideoUrl), study.VideoType, study.VideoName);
+            }
+            return null;
+        }
+
+        public async Task<ActionResult> CommentImage(string username)
+        {
+            AppUser user = await UserManager.FindByNameAsync(username);
+            if (user != null)
+                return File(user.ImageContent, user.ImageMine);
+            return null;
+        }
+
+        public async Task<ActionResult> Note(int? id)
+        {
+            if (id != null)
+            {
+                var study = await _studyService.GetByIdAsync(id.Value);
+                if (study != null)
+                    return File(Server.MapPath(study.NoteUrl), study.NoteType, study.NoteName);
+            }
+            return null;
         }
 
         AppUserManager UserManager

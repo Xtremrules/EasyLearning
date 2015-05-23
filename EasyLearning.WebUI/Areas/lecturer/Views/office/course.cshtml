@@ -1,0 +1,52 @@
+﻿@using EasyLearning.Domain.Entity;
+@model Course
+
+@{
+    ViewBag.Title = "course";
+}
+
+<div>
+    <section class="content-header">
+        <h1>
+            @Model.CourseTitle
+        </h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Course Information</h3>
+                       
+                    </div>
+                    <div class="box-body pad">
+                        <p>
+                            Name: @Model.CourseTitle
+                        </p>
+                        <p>
+                            Code: @Model.CourseCode
+                        </p>
+                        <p>
+                            Unit: @Model.CreditLoad
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-title">Lecturers Teaching this Course</div>
+                    </div>
+                    <div class="box-body">
+                        @foreach (var lect in Model.Lecturers)
+                        {
+                            <p class="pad">
+                                @lect.AppUser.FullName
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -307,6 +307,13 @@
     <Content Include="Areas\lecturer\Views\office\courses.cshtml" />
     <Content Include="Areas\student\Views\student\Studies.cshtml" />
     <Content Include="Areas\lecturer\Views\office\AddStudy.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\study.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\comments.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\course.cshtml" />
+    <Content Include="Areas\student\Views\student\course.cshtml" />
+    <Content Include="Areas\student\Views\student\study.cshtml" />
+    <Content Include="Areas\student\Views\student\comments.cshtml" />
+    <Content Include="Areas\student\Views\student\Index.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\iCheck\all.css" />
     <Content Include="Scripts\iCheck\flat\aero%402x.png" />

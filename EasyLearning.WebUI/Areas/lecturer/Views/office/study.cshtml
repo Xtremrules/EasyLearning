@@ -1,0 +1,73 @@
+﻿@using EasyLearning.Domain.Entity;
+@model Study
+
+@{
+    ViewBag.Title = "study";
+}
+
+<section class="content-header">
+    <h1>
+        @Model.Name
+    </h1>
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="jumbotron pad">
+            <p class="text-danger">
+                @Model.Summary
+            </p>
+            @if (Model.VideoName != null)
+            {
+                <a class="btn btn-flat btn-primary" href="@Url.Action("Video", new { id = Model.ID })"><i class="fa fa-file-video-o fa-fw"></i>Class Video</a>
+            }
+            @if (Model.NoteName != null)
+            {
+                <a class="btn btn-flat btn-info" href="@Url.Action("Note", new { id = Model.ID })"><i class="ion ion-music-note fa-fw"></i>Class Note</a>
+            }
+        </div>
+        <div class="col-md-offset-2 col-sm-offset-2 col-sm-8 col-md-8">
+            <!-- DIRECT CHAT SUCCESS -->
+            <div class="box box-info direct-chat direct-chat-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Comments Box</h3>
+                    @*<div class="box-tools pull-right">
+                            <span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="3 New Messages">3</span>
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle" data-original-title="Contacts"><i class="fa fa-comments"></i></button>
+                            <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>*@
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <!-- Conversations are loaded here -->
+                    <div class="direct-chat-messages">
+                        @Html.Partial("comments", Model.Comments)
+                    </div><!--/.direct-chat-messages-->
+                    <!-- Contacts are loaded here -->
+                    <!-- /.direct-chat-pane -->
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                    @using (Html.BeginForm("AddComment", "office", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("StudyID", Model.ID)
+                        <div class="input-group">
+                            <input type="text" name="Content" id="Content" placeholder="Type Message ..." class="form-control">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-success btn-flat">Send</button>
+                            </span>
+                        </div>
+                    }
+                    @*<form action="#" method="post">
+                        <div class="input-group">
+                            <input type="text" name="Content" id="Content" placeholder="Type Message ..." class="form-control">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-success btn-flat">Send</button>
+                            </span>
+                        </div>
+                    </form>*@
+                </div><!-- /.box-footer-->
+            </div><!--/.direct-chat -->
+        </div>
+    </div>
+</section>

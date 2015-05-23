@@ -21,7 +21,6 @@ namespace EasyLearning.Domain.Service
         public override IEnumerable<Comment> GetAll()
         {
             return _context.Comments
-                .Include(x => x.AppUser)
                 .Include(x => x.Replies)
                 .Include(x => x.Study).ToList();
         }
