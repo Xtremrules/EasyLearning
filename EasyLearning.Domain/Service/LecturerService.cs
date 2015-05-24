@@ -32,15 +32,15 @@ namespace EasyLearning.Domain.Service
         public async Task AssignCoursesAsync(string RegNo, string[] selectedCourses)
         {
             Lecturer lecturer = _dbset.Find(RegNo);
+            HashSet<string> selectedCoursesHS;
             if (lecturer == null)
                 return;
             if (selectedCourses == null)
-            {
-                lecturer.Courses = new List<Course>();
-                return;
-            }
+                selectedCoursesHS = new HashSet<string>();
+            else
+                selectedCoursesHS = new HashSet<string>(selectedCourses);
 
-            var selectedCoursesHS = new HashSet<string>(selectedCourses);
+            //var selectedCoursesHS = new HashSet<string>(selectedCourses);
             var lecturerCourses = new HashSet<long>(lecturer.Courses.Select(x => x.ID));
             IEnumerable<Course> departmentCourses = _context.Departments.Where(x => x.ID == lecturer.DepartmentID)
                                                                         .FirstOrDefault().Courses;

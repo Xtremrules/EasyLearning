@@ -1,0 +1,70 @@
+﻿@using EasyLearning.Domain.Entity
+@using PagedList
+@using PagedList.Mvc
+@model IPagedList<Study>
+
+@{
+    ViewBag.Title = "search";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Current
+        <small> Studies</small>
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Your Search for @ViewBag.q</h3>
+                    @if (ViewBag.CourseID != null)
+                    {
+                        <h5 class="pull-right"><a href="@Url.Action("AddStudy", new { id = ViewBag.CourseID })">Add new</a></h5>
+                    }
+                </div>
+
+                <div class="box-body no-padding">
+                    @if (Model.Count() == 0)
+                    {
+                        <span class="pad">Your Search yielded no result</span>
+                    }
+                    else
+                    {
+                        int courseCount = 0;
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Title</th>
+                                    <th>Course Code</th>
+                                    <th>Lecturer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var study in Model)
+                                {
+                                    <tr>
+                                        <td> @(++courseCount)</td>
+                                        <td> <a href="@Url.Action("study", new { id = study.ID })" class="btn btn-default">@Html.DisplayFor(x => study.Name)</a></td>
+                                        <td>@study.Course.CourseCode</td>
+                                        <td>@Html.GetFullName(study.CreatedBy)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="pad">
+                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                            @Html.PagedListPager(Model, page => Url.Action("studies", new { page }))
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Styles{
+    <link rel="stylesheet" href="~/Content/PagedList.css" />
+}

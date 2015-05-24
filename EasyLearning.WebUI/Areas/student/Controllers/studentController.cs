@@ -60,6 +60,16 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
             return View(student);
         }
 
+        public ActionResult search(string q, int? page)
+        {
+            ViewBag.q = q;
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+            var courses = _studentService.GetAll().First(x => x.AppUserID == User.Identity.GetUserId()).Courses;
+            var searchResult = courses.SelectMany(x => x.Studies).Where(x => x.Name.ToLower().Contains(q.ToLower()));
+            return View(searchResult.ToPagedList(pageNumber, pageSize));
+        }
+
         public ActionResult courses(int? page)
         {
             ViewBag.course = "active";

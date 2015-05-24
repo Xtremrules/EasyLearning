@@ -317,6 +317,7 @@
     <Content Include="Areas\adminsecured\Views\office\upload.cshtml" />
     <Content Include="Areas\lecturer\Views\office\profile.cshtml" />
     <Content Include="Areas\student\Views\student\profile.cshtml" />
+    <Content Include="Areas\student\Views\student\search.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\iCheck\all.css" />
     <Content Include="Scripts\iCheck\flat\aero%402x.png" />
@@ -488,6 +489,9 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
