@@ -302,7 +302,6 @@
     <Content Include="Areas\student\Views\_ViewStart.cshtml" />
     <Content Include="Areas\student\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\student\Views\student\courses.cshtml" />
-    <Content Include="Areas\Studies\Views\web.config" />
     <Content Include="Areas\lecturer\Views\office\Studies.cshtml" />
     <Content Include="Areas\lecturer\Views\office\courses.cshtml" />
     <Content Include="Areas\student\Views\student\Studies.cshtml" />
@@ -314,6 +313,10 @@
     <Content Include="Areas\student\Views\student\study.cshtml" />
     <Content Include="Areas\student\Views\student\comments.cshtml" />
     <Content Include="Areas\student\Views\student\Index.cshtml" />
+    <Content Include="Areas\adminsecured\Views\office\profile.cshtml" />
+    <Content Include="Areas\adminsecured\Views\office\upload.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\profile.cshtml" />
+    <Content Include="Areas\student\Views\student\profile.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\iCheck\all.css" />
     <Content Include="Scripts\iCheck\flat\aero%402x.png" />
@@ -459,9 +462,10 @@
     <Compile Include="Areas\adminsecured\Models\ActionModel.cs" />
     <Compile Include="Areas\lecturer\Controllers\officeController.cs" />
     <Compile Include="Areas\lecturer\lecturerAreaRegistration.cs" />
+    <Compile Include="Areas\lecturer\Models\Dashboard.cs" />
     <Compile Include="Areas\student\Controllers\studentController.cs" />
+    <Compile Include="Areas\student\Models\Dashboard.cs" />
     <Compile Include="Areas\student\studentAreaRegistration.cs" />
-    <Compile Include="Areas\Studies\StudiesAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -493,11 +497,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\lecturer\Models\" />
-    <Folder Include="Areas\student\Models\" />
-    <Folder Include="Areas\Studies\Controllers\" />
-    <Folder Include="Areas\Studies\Models\" />
-    <Folder Include="Areas\Studies\Views\Shared\" />
     <Folder Include="Assignments\" />
     <Folder Include="Materials\" />
     <Folder Include="Study Videos\" />

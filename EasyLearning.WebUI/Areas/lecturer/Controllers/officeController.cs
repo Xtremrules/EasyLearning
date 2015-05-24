@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using PagedList;
 using System.Threading.Tasks;
 using System.IO;
+using EasyLearning.WebUI.Areas.lecturer.Models;
 
 namespace EasyLearning.WebUI.Areas.lecturer.Controllers
 {
@@ -45,7 +46,21 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
         public ActionResult Index()
         {
             ViewBag.dashboard = "active";
-            return View();
+            var lecturer = _lecturerService.GetAll().First(x => x.AppUserID == User.Identity.GetUserId());
+            var dashboard = new Dashboard
+            {
+                NumberOfCourses = lecturer.Courses.Count,
+                NumberOfStudies = lecturer.Courses
+                .SelectMany(x => x.Studies)
+                .Where(x => x.CreatedBy == User.Identity.Name).Count(),
+            };
+            return View(dashboard);
+        }
+
+        public ActionResult profile()
+        {
+            var lecturer = _lecturerService.GetAll().First(x => x.AppUserID == User.Identity.GetUserId());
+            return View(lecturer);
         }
 
         public ActionResult courses(int? page)

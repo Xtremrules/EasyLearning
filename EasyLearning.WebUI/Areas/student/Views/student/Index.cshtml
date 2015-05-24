@@ -1,7 +1,48 @@
-﻿
+﻿@model EasyLearning.WebUI.Areas.student.Models.Dashboard
+
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
+<div>
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Welcome</small>
+        </h1>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="ion ion-stats-bars"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text"><a href="@Url.Action("courses")">Courses</a></span>
+                        <span class="info-box-number">@Model.NumberOfCourses</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="ion ion-ios-home"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text"><a href="@Url.Action("studies")">Studies</a></span>
+                        <span class="info-box-number">@Model.NumberOfStudies</span>
+                    </div>
+                </div>
+            </div>
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+
+            <!-- /.col -->
+            <!-- /.col -->
+        </div>
+
+    </section><!-- /.content -->
+
+</div>

@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "upload";
+}
+
+
+<section class="content-header">
+    <h3>Upload Image</h3>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-offset-4 col-md-offset-4 col-sm-4 col-md-4">
+            <div class="box">
+                <div class="box-header">
+                    <h4>Image</h4>
+                </div>
+                <div class="box-body">
+                    @using (Html.BeginForm("upload", "office", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            @Html.Label("Image")
+                            <input type="file" name="image" id="image" class="form-control" />
+                            <button type="submit" class="btn btn-flat btn-primary">Save</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

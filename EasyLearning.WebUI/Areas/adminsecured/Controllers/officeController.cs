@@ -57,6 +57,33 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
             return View(dashboard);
         }
 
+        public async Task<ActionResult> profile()
+        {
+            AppUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            return View(user);
+        }
+
+        public ActionResult upload()
+        {
+            return View();
+        }
+
+        [HttpPost,ValidateAntiForgeryToken]
+        public async Task<ActionResult> upload(HttpPostedFileBase image = null)
+        {
+            if (VerifyImage(image))
+            {
+                AppUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    bool success = await ModifyUserImage(user.Id, image);
+                    if (success)
+                        return RedirectToAction("profile");
+                }
+            }
+            return View();
+        }
+
         public ActionResult colleges(string id, int? page)
         {
             int pageSize = 5;
