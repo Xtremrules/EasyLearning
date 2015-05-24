@@ -19,12 +19,18 @@
             </p>
             @if (Model.VideoName != null)
             {
-                <a class="btn btn-flat btn-primary" href="@Url.Action("Video", new { id = Model.ID })"><i class="fa fa-file-video-o fa-fw"></i>Class Video</a>
+                <p>
+                    <video controls="controls">
+                        <source src="@Url.Action("Video", new { id = Model.ID })" type="@Model.VideoType" />
+                    </video>
+                </p>
+                <a class="btn btn-flat btn-primary" href="@Url.Action("Video", new { id = Model.ID })"><i class="fa fa-file-video-o fa-fw"></i>Download Video</a>
             }
             @if (Model.NoteName != null)
             {
-                <a class="btn btn-flat btn-info" href="@Url.Action("Note", new { id = Model.ID })"><i class="ion ion-music-note fa-fw"></i>Class Note</a>
+                <a class="btn btn-flat btn-info" href="@Url.Action("Note", new { id = Model.ID })"><i class="fa fa-book fa-fw"></i>Download Note</a>
             }
+
         </div>
         <div class="col-md-offset-2 col-sm-offset-2 col-sm-8 col-md-8">
             <!-- DIRECT CHAT SUCCESS -->
