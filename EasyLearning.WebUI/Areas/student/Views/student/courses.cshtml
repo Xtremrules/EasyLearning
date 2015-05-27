@@ -29,6 +29,7 @@
                     }
                     else
                     {
+                        List<Activity> Activities = ViewBag.Activites;
                         int courseCount = 0;
                         <table class="table table-hover table-responsive">
                             <thead>
@@ -43,13 +44,17 @@
                             <tbody>
                                 @foreach (var course in Model)
                                 {
+                                    int newAct =  Activities.Where(x => x.Study.CourseID == course.ID).Count();
                                     <tr>
                                         <td> @(++courseCount)</td>
                                         <td> <a href="@Url.Action("course", new { id = course.ID })" class="btn btn-default">@Html.DisplayFor(x => course.CourseTitle)</a></td>
                                         <td> @Html.DisplayFor(x => course.CourseCode)</td>
                                         <th>@Html.DisplayFor(x => course.CreditLoad)</th>
                                         <td><a class="btn btn-flat btn-info" href="@Url.Action("studies", new { id = course.ID })">View</a>
-                                        <span class="badge">@course.Studies.Count</span>
+                                        @if (newAct > 0)
+                                        {
+                                            <span class="badge bg-green">@newAct</span>
+                                        }
                                         </td>
                                     </tr>
                                 }

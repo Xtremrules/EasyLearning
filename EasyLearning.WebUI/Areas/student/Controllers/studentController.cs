@@ -18,25 +18,21 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
     [Authorize(Roles = Roles.Students)]
     public class studentController : Controller
     {
-        ICollegeService _collegeService;
-        IDepartmentService _departmentService;
         IStudentService _studentService;
         ICourseService _courseService;
-        ILecturerService _lecturerService;
         IReplyService _replyService;
         ICommentService _commentService;
         IStudyService _studyService;
+        IActivityService _activityService;
 
-        public studentController(ICollegeService _collegeService, IDepartmentService _depertmentService,
+        public studentController(IActivityService _activityService,
            IStudentService _studentService, ICourseService _courseService,
-           ILecturerService _lecturerService, IReplyService _replyService,
-           ICommentService _commentService, IStudyService _studyService)
+            IReplyService _replyService, ICommentService _commentService,
+            IStudyService _studyService)
         {
-            this._collegeService = _collegeService;
-            this._departmentService = _depertmentService;
+            this._activityService = _activityService;
             this._studentService = _studentService;
             this._courseService = _courseService;
-            this._lecturerService = _lecturerService;
             this._replyService = _replyService;
             this._commentService = _commentService;
             this._studyService = _studyService;
@@ -50,6 +46,7 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
             {
                 NumberOfCourses = student.Courses.Count,
                 NumberOfStudies = student.Courses.SelectMany(x => x.Studies).Count(),
+                NumberOfNewStudies = student.AppUser.Activities.Count
             };
             return View(dashboard);
         }
@@ -70,12 +67,14 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
             return View(searchResult.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult courses(int? page)
+        public async Task<ActionResult> courses(int? page)
         {
+            AppUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            ViewBag.Activites = user.Activities.ToList();
             ViewBag.course = "active";
             int pageSize = 10;
             int pageNumber = page ?? 1;
-            var courses = _studentService.GetAll().First(x => x.AppUserID == User.Identity.GetUserId()).Courses;
+            var courses = _studentService.GetAll().First(x => x.AppUserID == user.Id).Courses;
             return View(courses.ToPagedList(pageNumber, pageSize));
         }
 
@@ -86,8 +85,9 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
                 ViewBag.studies = "active";
                 int pageSize = 10;
                 int pageNumber = page ?? 1;
+                await _activityService.DeleteActivity((long)id.Value, User.Identity.GetUserId());
                 var course = await _courseService.GetByIdAsync((long)id.Value);
-                return View(course.Studies.ToPagedList(pageNumber, pageSize));
+                return View(course.Studies.OrderByDescending(x => x.CreatedDate).ToPagedList(pageNumber, pageSize));
             }
             return RedirectToAction("courses");
         }

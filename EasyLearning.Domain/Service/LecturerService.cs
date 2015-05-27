@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EasyLearning.Domain.Service
 {
-    class LecturerService : EntityService<Lecturer>, ILecturerService
+    public class LecturerService : EntityService<Lecturer>, ILecturerService
     {
         public LecturerService(EasyLearningDB context)
             : base(context) { }

@@ -50,5 +50,6 @@ namespace EasyLearning.Domain.Entity
         }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
+        public virtual ICollection<Activity> Activities { get; set; }
     }
 }

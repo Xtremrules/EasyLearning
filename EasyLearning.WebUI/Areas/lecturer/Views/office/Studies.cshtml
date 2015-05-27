@@ -40,6 +40,7 @@
                                     <th>No</th>
                                     <th>Title</th>
                                     <th>Course Code</th>
+                                    <th>Date</th>
                                     <th>Lecturer</th>
                                 </tr>
                             </thead>
@@ -50,6 +51,7 @@
                                         <td> @(++courseCount)</td>
                                         <td> <a href="@Url.Action("study", new { id = study.ID })" class="btn btn-default">@Html.DisplayFor(x => study.Name)</a></td>
                                         <td>@study.Course.CourseCode</td>
+                                        <td>@Html.DisplayFor(x => study.CreatedDate)</td>
                                         <td>@Html.GetFullName(study.CreatedBy)</td>
                                     </tr>
                                 }

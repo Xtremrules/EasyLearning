@@ -93,7 +93,7 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
                 var course = await _courseService.GetByIdAsync((long)id.Value);
                 ViewBag.Current = course.CourseCode;
                 ViewBag.CourseID = course.ID;
-                var studies = course.Studies.Where(x => x.CreatedBy == User.Identity.Name);
+                var studies = course.Studies.Where(x => x.CreatedBy == User.Identity.Name).OrderByDescending(x => x.CreatedDate);
                 return View(studies.ToPagedList(pageNumber, pageSize));
             }
             ViewBag.Current = "All Studies";
