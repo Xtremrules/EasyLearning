@@ -318,6 +318,7 @@
     <Content Include="Areas\lecturer\Views\office\profile.cshtml" />
     <Content Include="Areas\student\Views\student\profile.cshtml" />
     <Content Include="Areas\student\Views\student\search.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\students.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\iCheck\all.css" />
     <Content Include="Scripts\iCheck\flat\aero%402x.png" />

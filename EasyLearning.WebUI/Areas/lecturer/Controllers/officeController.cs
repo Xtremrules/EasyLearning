@@ -145,6 +145,16 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
             return RedirectToAction("courses");
         }
 
+        public ActionResult students(string course)
+        {
+            if (string.IsNullOrEmpty(course))
+                return RedirectToAction("courses");
+            var Course = _courseService.GetAll().FirstOrDefault(x => x.CourseCode == course.Trim());
+            var CourseStudent = Course.Students;
+            ViewBag.Current = Course.CourseTitle;
+            return View("students", CourseStudent);
+        }
+
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> AddStudy(Study model, HttpPostedFileBase video = null, HttpPostedFileBase material = null)
         {
