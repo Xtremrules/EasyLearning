@@ -270,6 +270,9 @@
     <Content Include="img\user-bg.png" />
     <Content Include="img\user.jpg" />
     <Content Include="img\user2.jpg" />
+    <Content Include="Perusal\Box.html" />
+    <Content Include="Perusal\Default.html" />
+    <Content Include="Perusal\Keep.html" />
     <Content Include="Perusal\Main.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -319,6 +322,9 @@
     <Content Include="Areas\student\Views\student\profile.cshtml" />
     <Content Include="Areas\student\Views\student\search.cshtml" />
     <Content Include="Areas\lecturer\Views\office\students.cshtml" />
+    <Content Include="Areas\student\Views\student\uploadAssignment.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\Assignments.cshtml" />
+    <Content Include="Areas\lecturer\Views\office\view.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\iCheck\all.css" />
     <Content Include="Scripts\iCheck\flat\aero%402x.png" />

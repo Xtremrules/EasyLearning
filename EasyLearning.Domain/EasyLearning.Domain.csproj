@@ -123,6 +123,7 @@
     <Compile Include="Abstract\IEntity.cs" />
     <Compile Include="Abstract\Service\EntityService.cs" />
     <Compile Include="Abstract\Service\IActivityService.cs" />
+    <Compile Include="Abstract\Service\IAssignmentService.cs" />
     <Compile Include="Abstract\Service\ICollegeService.cs" />
     <Compile Include="Abstract\Service\ICommentService.cs" />
     <Compile Include="Abstract\Service\ICourseService.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Entity\AppUser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entity\Assignment.cs" />
     <Compile Include="Entity\College.cs" />
     <Compile Include="Entity\Comment.cs" />
     <Compile Include="Entity\Course.cs" />
@@ -185,11 +187,20 @@
     <Compile Include="Migrations\201505242223470_activities.Designer.cs">
       <DependentUpon>201505242223470_activities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506021155289_assignmentProp.cs" />
+    <Compile Include="Migrations\201506021155289_assignmentProp.Designer.cs">
+      <DependentUpon>201506021155289_assignmentProp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506031002150_changedAssign.cs" />
+    <Compile Include="Migrations\201506031002150_changedAssign.Designer.cs">
+      <DependentUpon>201506031002150_changedAssign.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Owner.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ActivityService.cs" />
+    <Compile Include="Service\AssignmentService.cs" />
     <Compile Include="Service\CollegeService.cs" />
     <Compile Include="Service\CommentService.cs" />
     <Compile Include="Service\CourseService.cs" />
@@ -222,6 +233,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505242223470_activities.resx">
       <DependentUpon>201505242223470_activities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506021155289_assignmentProp.resx">
+      <DependentUpon>201506021155289_assignmentProp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506031002150_changedAssign.resx">
+      <DependentUpon>201506031002150_changedAssign.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,76 @@
+﻿@model EasyLearning.Domain.Entity.Assignment
+@{
+    ViewBag.Title = "view";
+}
+
+<section class="content-header">
+    <h1>
+        Study: @Model.Study.Name
+        <small> @Model.Study.Course.CourseCode</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Assignment</a></li>
+        <li class="active">Here</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Submitted Assignment</h3>
+                </div>
+                <div class="box-body">
+                    <p>
+                        By: @Model.Student.AppUser.FullName
+                    </p>
+                    <p>
+                        RegNo: @Model.StudentRegNo
+                    </p>
+                    <p>
+                        Department: @Model.Student.Department.Name
+                    </p>
+                    <p>
+                        <a href="@Url.Action("Assignments", new { id = Model.StudyID })" class="btn btn-flat btn-warning">Return to Assignments</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            @if (Model.Score.HasValue)
+            {
+                <p>
+                    Score: @Model.Score.Value
+                </p>
+            }
+            else
+            {
+                using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.ContentType)
+                    @Html.HiddenFor(x => x.ID)
+                    @Html.HiddenFor(x => x.StudyID)
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Score)
+                        @Html.EditorFor(x => x.Score, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(x => x.Score, "", new { @class = "text-danger" })
+                    </div>
+                    <button type="submit" class="btn btn-flat btn-primary">Grade</button>
+                }
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                <a class="btn btn-flat btn-info" href="@Url.Action("downloadAssignment", new { id = Model.ID })"><i class="fa fa-download fa-fw"></i>Download</a>
+            </p>
+            <object data="@Url.Action("ViewAssign", new { id = Model.ID })" type="@Model.ContentType" width="900" height="1000"></object>
+        </div>
+    </div>
+</section>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

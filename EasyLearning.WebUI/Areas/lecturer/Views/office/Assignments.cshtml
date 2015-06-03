@@ -1,0 +1,58 @@
+﻿@using EasyLearning.Domain.Entity;
+@model List<Assignment>
+
+@{
+    ViewBag.Title = "Assignments";
+    int count = 0;
+}
+
+<section class="content-header">
+    <h1>
+        Submitted Assignments
+    </h1>
+    <h3 class="pull-right">
+        <a href="@Url.Action("study", new { id = ViewBag.StudyID })" class="btn btn-flat btn-warning">Return to Study</a>
+    </h3>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="box">
+                <div class="box-body">
+                    <table class="table table-hover table-responsive table-striped">
+                        @if (Model.Count == 0)
+                        {
+                            <tr><td colspan="2">No Assignment submitted for this study Yet</td></tr>
+                        }
+                        else
+                        {
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Reg No</th>
+                                    <th>Department</th>
+                                    <th>Score</th>
+                                    <th>view</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var assign in Model)
+                                {
+                                    <tr>
+                                        <td>@(++count)</td>
+                                        <td>@Html.DisplayFor(x => assign.Student.AppUser.FullName)</td>
+                                        <td>@Html.DisplayFor(x => assign.StudentRegNo)</td>
+                                        <td>@Html.DisplayFor(x => assign.Student.Department.Name)</td>
+                                        <td>@Html.DisplayFor(x => assign.Score)</td>
+                                        <td><a href="@Url.Action("view", new { id = assign.ID })">View / Grade</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

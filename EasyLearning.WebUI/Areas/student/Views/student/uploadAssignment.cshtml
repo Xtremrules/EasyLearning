@@ -1,0 +1,30 @@
+﻿@using EasyLearning.Domain.Entity;
+@model Study
+
+@{
+    ViewBag.Title = "upload Assignment";
+}
+
+<section class="content-header">
+    <h2></h2>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-4 col-md-offset-4 col-md-4">
+            @using (Html.BeginForm("uploadAssignment", "student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.ValidationSummary(true, "Must be a document type", new { @class = "text-danger" })
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.ID)
+                @Html.HiddenFor(x => x.CreatedBy)
+                @Html.HiddenFor(x => x.CourseID)
+                <div class="form-group">
+                    @Html.Label("Upload Assignment")
+                    <input type="file" name="assignmentData" class="form-control" />
+                    <p class="help-block">Either PDF or Word doc. PDF Better.</p>
+                </div>
+                <button class="btn btn-flat btn-primary">Upload</button>
+            }
+        </div>
+    </div>
+</section>

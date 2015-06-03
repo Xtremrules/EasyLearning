@@ -21,6 +21,7 @@ namespace EasyLearning.Domain.Entity
         public string NoteType { get; set; }
         public long CourseID { get; set; }
         public virtual Course Course { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

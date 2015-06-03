@@ -37,6 +37,7 @@ namespace EasyLearning.Domain.Service
         public override IEnumerable<Study> GetAll()
         {
             return _context.Studies.Include(x => x.Comments)
+                .Include(x => x.Assignments)
                 .Include(x => x.Course).ToList();
         }
     }

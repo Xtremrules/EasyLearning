@@ -27,11 +27,13 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
         IReplyService _replyService;
         ICommentService _commentService;
         IStudyService _studyService;
+        IAssignmentService _assignmentService;
 
         public officeController(ICollegeService _collegeService, IDepartmentService _depertmentService,
            IStudentService _studentService, ICourseService _courseService,
            ILecturerService _lecturerService, IReplyService _replyService,
-           ICommentService _commentService, IStudyService _studyService)
+           ICommentService _commentService, IStudyService _studyService,
+            IAssignmentService _assignmentService)
         {
             this._collegeService = _collegeService;
             this._departmentService = _depertmentService;
@@ -41,6 +43,7 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
             this._replyService = _replyService;
             this._commentService = _commentService;
             this._studyService = _studyService;
+            this._assignmentService = _assignmentService;
         }
 
         public ActionResult Index()
@@ -218,6 +221,69 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
             System.IO.File.Delete(Server.MapPath(model.VideoUrl));
             //return File(Server.MapPath(newVideoPath), video.ContentType, video.FileName);
             return View(model);
+        }
+
+        public ActionResult Assignments(int id)
+        {
+            var assignments = _studyService.GetAll().FirstOrDefault(x => x.ID == id).Assignments.ToList();
+            ViewBag.StudyID = id;
+            return View(assignments);
+        }
+
+        public ActionResult view(int id)
+        {
+            var assignment = _assignmentService.GetById(id);
+            if (assignment != null)
+            {
+                return View(assignment);
+            }
+            return RedirectToAction("studies");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> view([Bind(Include = "Score,ID,StudyID,ContentType")]Assignment model)
+        {
+            var assignment = _assignmentService.GetById(model.ID);
+            if (assignment != null)
+            {
+                assignment.Score = model.Score;
+                try
+                {
+                    await _assignmentService.UpdateAsync(assignment);
+                    TempData["success"] = "Assignment Graded successfully";
+                    return RedirectToAction("Assignments", new { id = model.StudyID });
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+            }
+            return View(model);
+        }
+
+        public async Task<ActionResult> ViewAssign(int? id)
+        {
+            if (id != null)
+            {
+                var assignment = await _assignmentService.FindByIdAsync(id.Value);
+                if (assignment != null)
+                {
+                    return File(Server.MapPath(assignment.AssignmentUrl), assignment.ContentType);
+                }
+            }
+            return null;
+        }
+
+        public async Task<ActionResult> downloadAssignment(int? id)
+        {
+            if (id.HasValue)
+            {
+                var assign = await _assignmentService.FindByIdAsync(id.Value);
+                if (assign != null)
+                    return File(Server.MapPath(assign.AssignmentUrl), assign.ContentType, assign.SaveName);
+            }
+            return null;
         }
 
         public async Task<FileContentResult> Image()

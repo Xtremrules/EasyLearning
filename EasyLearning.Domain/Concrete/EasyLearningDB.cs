@@ -30,6 +30,7 @@ namespace EasyLearning.Domain.Concrete
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reply> Replies { get; set; }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

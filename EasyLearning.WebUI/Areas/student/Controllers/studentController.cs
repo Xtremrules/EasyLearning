@@ -12,6 +12,7 @@ using PagedList;
 using EasyLearning.Domain.Entity;
 using EasyLearning.Domain.Models;
 using EasyLearning.WebUI.Areas.student.Models;
+using System.IO;
 
 namespace EasyLearning.WebUI.Areas.student.Controllers
 {
@@ -24,11 +25,13 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
         ICommentService _commentService;
         IStudyService _studyService;
         IActivityService _activityService;
+        IAssignmentService _assignmentService;
 
         public studentController(IActivityService _activityService,
            IStudentService _studentService, ICourseService _courseService,
             IReplyService _replyService, ICommentService _commentService,
-            IStudyService _studyService)
+            IStudyService _studyService,IAssignmentService _assignmentService)
+        
         {
             this._activityService = _activityService;
             this._studentService = _studentService;
@@ -36,6 +39,7 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
             this._replyService = _replyService;
             this._commentService = _commentService;
             this._studyService = _studyService;
+            this._assignmentService = _assignmentService;
         }
 
         public ActionResult Index()
@@ -133,6 +137,70 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
                 }
             }
             return RedirectToAction("study", new { id = model.StudyID });
+        }
+
+        public async Task<ActionResult> uploadAssignment(int id)
+        {
+            var study = await _studyService.GetByIdAsync((long)id);
+            if (study != null)
+            {
+                return View(study);
+            }
+            return RedirectToAction("study", new { id = id });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> uploadAssignment(Study model, HttpPostedFileBase assignmentData = null)
+        {
+            string newAPath = "";
+            var student = _studentService.GetAll().FirstOrDefault(x => x.AppUserID == User.Identity.GetUserId());
+            if (VerifyAssignment(assignmentData))
+            {
+                string AssignmentPath = "~/Assignment";
+                if (!Directory.Exists(Server.MapPath(AssignmentPath)))
+                    Directory.CreateDirectory(Server.MapPath(AssignmentPath));
+
+                var APath = Path.Combine(Server.MapPath(AssignmentPath), Guid.NewGuid().ToString() + " " + assignmentData.FileName);
+                assignmentData.SaveAs(APath);
+
+                APath = APath.Substring(APath.LastIndexOf("\\"));
+                string[] spiltAPath = APath.Split('\\');
+                newAPath = spiltAPath[1];
+                newAPath = AssignmentPath + "/" + newAPath;
+
+                var assignment = new Assignment
+                {
+                    AssignmentUrl = newAPath,
+                    StudyID = model.ID,
+                    StudentRegNo = student.RegNo,
+                    SaveName = assignmentData.FileName,
+                    ContentType = assignmentData.ContentType,
+                    Score = null,
+                };
+
+                try
+                {
+                    await _assignmentService.CreateAsync(assignment);
+                    TempData["success"] = "Assignment Uploaded successfully";
+                    return RedirectToAction("study", new { id = model.ID });
+                }
+                catch (Exception)
+                {
+                    System.IO.File.Delete(Server.MapPath(newAPath));                    
+                    throw;
+                }
+            }
+            else
+                ModelState.AddModelError("Doc", "Must be a document type");
+            return View(model);
+        }
+
+        private bool VerifyAssignment(HttpPostedFileBase assignment)
+        {
+            if (assignment != null)
+                if (assignment.FileName.Contains(".docx") || assignment.FileName.Contains(".pdf") || assignment.FileName.Contains(".doc"))
+                    return true;
+            return false;
         }
 
         public async Task<ActionResult> Video(int? id)
