@@ -162,6 +162,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\EasyLearningDB.mdf" />
+    <Content Include="App_Data\EasyLearningDB_Log.ldf">
+      <DependentUpon>EasyLearningDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
@@ -274,6 +278,72 @@
     <Content Include="Perusal\Default.html" />
     <Content Include="Perusal\Keep.html" />
     <Content Include="Perusal\Main.html" />
+    <Content Include="Perusal\PIKO\access.png" />
+    <Content Include="Perusal\PIKO\bbusi.jpg" />
+    <Content Include="Perusal\PIKO\blnwk.jpg" />
+    <Content Include="Perusal\PIKO\Bright.jpg" />
+    <Content Include="Perusal\PIKO\bsoln.jpg" />
+    <Content Include="Perusal\PIKO\buizy.png" />
+    <Content Include="Perusal\PIKO\bulk.jpg" />
+    <Content Include="Perusal\PIKO\busi.jpg" />
+    <Content Include="Perusal\PIKO\business.jpg" />
+    <Content Include="Perusal\PIKO\chigo.jpg" />
+    <Content Include="Perusal\PIKO\col-5.jpg" />
+    <Content Include="Perusal\PIKO\col-8.jpg" />
+    <Content Include="Perusal\PIKO\customer.jpg" />
+    <Content Include="Perusal\PIKO\design.jpg" />
+    <Content Include="Perusal\PIKO\desk.jpg" />
+    <Content Include="Perusal\PIKO\dine.JPG" />
+    <Content Include="Perusal\PIKO\drive.jpg" />
+    <Content Include="Perusal\PIKO\ebby.jpg" />
+    <Content Include="Perusal\PIKO\eby.jpg" />
+    <Content Include="Perusal\PIKO\eby1.jpg" />
+    <Content Include="Perusal\PIKO\edddd.jpg" />
+    <Content Include="Perusal\PIKO\edu soln.jpg" />
+    <Content Include="Perusal\PIKO\Eng.jpg" />
+    <Content Include="Perusal\PIKO\EXECUTIVE MEETING ROOM.JPG" />
+    <Content Include="Perusal\PIKO\facb1.jpg" />
+    <Content Include="Perusal\PIKO\fon.jpg" />
+    <Content Include="Perusal\PIKO\grace.jpg" />
+    <Content Include="Perusal\PIKO\hair.jpg" />
+    <Content Include="Perusal\PIKO\hall 1.JPG" />
+    <Content Include="Perusal\PIKO\hall 2.JPG" />
+    <Content Include="Perusal\PIKO\hall 3.jpg" />
+    <Content Include="Perusal\PIKO\handrep.jpg" />
+    <Content Include="Perusal\PIKO\hardyy.jpg" />
+    <Content Include="Perusal\PIKO\houseme.jpg" />
+    <Content Include="Perusal\PIKO\ICE-1.jpg" />
+    <Content Include="Perusal\PIKO\ICE-10.jpg" />
+    <Content Include="Perusal\PIKO\ICE-11.jpg" />
+    <Content Include="Perusal\PIKO\ICE-12.jpg" />
+    <Content Include="Perusal\PIKO\ICE-13.jpg" />
+    <Content Include="Perusal\PIKO\ICE-14.jpg" />
+    <Content Include="Perusal\PIKO\ICE-15.jpg" />
+    <Content Include="Perusal\PIKO\ICE-2.jpg" />
+    <Content Include="Perusal\PIKO\ICE-3.jpg" />
+    <Content Include="Perusal\PIKO\ICE-4.jpg" />
+    <Content Include="Perusal\PIKO\ICE-5.jpg" />
+    <Content Include="Perusal\PIKO\ICE-6.jpg" />
+    <Content Include="Perusal\PIKO\ICE-7.jpg" />
+    <Content Include="Perusal\PIKO\ICE-8.jpg" />
+    <Content Include="Perusal\PIKO\ICE-9.jpg" />
+    <Content Include="Perusal\PIKO\Ice.jpg" />
+    <Content Include="Perusal\PIKO\images.jpg" />
+    <Content Include="Perusal\PIKO\jay2.jpg" />
+    <Content Include="Perusal\PIKO\Jaysound.jpg" />
+    <Content Include="Perusal\PIKO\joy.jpg" />
+    <Content Include="Perusal\PIKO\lapy.jpg" />
+    <Content Include="Perusal\PIKO\logo.png" />
+    <Content Include="Perusal\PIKO\luv.png" />
+    <Content Include="Perusal\PIKO\mma.jpg" />
+    <Content Include="Perusal\PIKO\n.smart.jpg" />
+    <Content Include="Perusal\PIKO\NEC 1.jpg" />
+    <Content Include="Perusal\PIKO\NEC 2.jpg" />
+    <Content Include="Perusal\PIKO\netwk.jpg" />
+    <Content Include="Perusal\PIKO\ntwk.jpg" />
+    <Content Include="Perusal\PIKO\pc.png" />
+    <Content Include="Perusal\PIKO\peace.png" />
+    <Content Include="Perusal\PIKO\WEB-R.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\adminsecured\Views\_ViewStart.cshtml" />
@@ -325,6 +395,7 @@
     <Content Include="Areas\student\Views\student\uploadAssignment.cshtml" />
     <Content Include="Areas\lecturer\Views\office\Assignments.cshtml" />
     <Content Include="Areas\lecturer\Views\office\view.cshtml" />
+    <Content Include="Perusal\PIKO\hall.rar" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\iCheck\all.css" />
     <Content Include="Scripts\iCheck\flat\aero%402x.png" />
@@ -451,7 +522,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\npm.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -507,7 +580,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Assignments\" />
     <Folder Include="Materials\" />
     <Folder Include="Study Videos\" />

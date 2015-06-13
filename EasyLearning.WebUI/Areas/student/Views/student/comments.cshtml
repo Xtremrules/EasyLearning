@@ -35,7 +35,7 @@ else
         <div class="direct-chat-msg">
             <div class="direct-chat-info clearfix">
                 <span class="direct-chat-name pull-left">@Html.GetFullName(comment.CreatedBy)</span>
-                <span class="direct-chat-timestamp pull-right">@comment.CreatedDate.Date</span>
+                <span class="direct-chat-timestamp pull-right">@comment.CreatedDate</span>
             </div><!-- /.direct-chat-info -->
             <img class="direct-chat-img" src="@Url.Action("CommentImage", new { username = comment.CreatedBy })" alt="message user image"><!-- /.direct-chat-img -->
             <div class="direct-chat-text">
