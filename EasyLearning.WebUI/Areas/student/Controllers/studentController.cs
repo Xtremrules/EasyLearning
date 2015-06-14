@@ -129,6 +129,9 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
                 try
                 {
                     await _commentService.CreateAsync(model);
+                    var study = await _studyService.GetByIdAsync(model.StudyID);
+                    if (study != null)
+                        return PartialView("Comments", study.Comments);
                 }
                 catch (Exception)
                 {
@@ -136,7 +139,7 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
                     throw;
                 }
             }
-            return RedirectToAction("study", new { id = model.StudyID });
+            return null;
         }
 
         public async Task<ActionResult> uploadAssignment(int id)
