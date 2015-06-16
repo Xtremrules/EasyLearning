@@ -7,11 +7,9 @@
     //    InsertionMode = InsertionMode.ReplaceWith,
     //    //OnBegin = "onBegin",
     //    //OnSuccess = "onSuccess",
-    //    Url = Url.Action("add-dean", "office", new { id = Model.ID }),
+    //    Url = Url.Action("EditDepartment", "office", new { id = Model.ID }),
     //    OnFailure = "onFailure",
-    //    UpdateTargetId = "add-dean",
-    //    //OnComplete = "onComplete",
-    //    //Confirm = "Are you sure of Your Selection"
+    //    UpdateTargetId = "EditDepartment",
     //};
     ViewBag.Title = "College: " + Model.Title;
 }
@@ -69,20 +67,54 @@
 
                 </dl>
             </div>
+            <p>
+                <a href="@Url.Action("courses", new { id = Model.Title })" class="btn btn-flat btn-primary">Courses</a> |
+                <a class="btn btn-flat btn-warning" href="@Url.Action("add-drop-courses", new { current = Model.Title })">Add/Drop Non Departmental Courses</a>
+            </p>
+            <p>
+                @*<button class="btn btn-primary btn-flat" id="sendEdit">Edit</button>*@
+                @Html.ActionLink("Lectures", "lecturers", new { id = Model.Title }, new { @class = "btn btn-info btn-flat" }) |
+                @*@Ajax.ActionLink("Edit", "EditDepartment","office" ,null, ajaxOpts, new { @class = "btn btn-flat btn-primary" })*@
+                <button class="btn btn-primary btn-flat" id="sendEdit">Edit</button>  |
+                <a data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-flat">Delete Department</a>
+            </p>
         </div>
 
         <div class="col-sm-12 col-md-6">
-            <div id="hodPanel" style="display:none;"></div>
             <div id="edit" style="display:none;"></div>
         </div>
     </div>
-
-    <p>
-        @*<button class="btn btn-primary btn-flat" id="sendEdit">Edit</button>*@
-        <a href="@Url.Action("courses", new { id = Model.Title })" class="btn btn-flat btn-primary">Courses</a> |
-        @Html.ActionLink("Lectures", "lecturers", new { id = Model.Title }, new { @class = "btn btn-info btn-flat" }) |
-        <a class="btn btn-flat btn-warning" href="@Url.Action("add-drop-courses", new { current = Model.Title })">Add/Drop Non Departmental Courses</a>
-    </p>
+    <div class="modal fade" id="myModal" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" id="myModalLabel">
+                    <button class="close" aria-hidden="true" type="button" data-dismiss="modal">×</button>
+                    <h3 class="modal-title">Notice</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="text-warning h4">
+                        Are you sure you wish to delete this department?
+                        <br />
+                        Doing this will also delete all students in this department
+                    </p>
+                    <p class="text-capitalize text-danger h3">
+                        This action can't be undone.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    @using (Html.BeginForm("DeleteDepartment", "office", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(x => x.ID)
+                        <button class="btn btn-default" data-dismiss="modal" type="button">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">Continue</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 @section scripts{
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -120,14 +152,14 @@
         //function OnBegin() {
         //    alert("This is the OnBegin Callback");
         //}
-        //function OnSuccess(data) {
-        //    alert("This is the OnSuccessCallback: " + data);
-        //}
-        function OnFailure(request, error) {
-            //alert("This is the OnFailure Callback:" + error);
-            location.reload(true);
-
+        function OnSuccess(data) {
+            $('#EditDepartment').show();
         }
+        //function OnFailure(request, error) {
+            //alert("This is the OnFailure Callback:" + error);
+        //    location.reload(true);
+
+        //}
         //function OnComplete(request, status) {
         //    alert("This is the OnComplete Callback: " + status);
         //}

@@ -1,6 +1,12 @@
 ﻿@model EasyLearning.WebUI.Areas.adminsecured.Models.EditViewModel
 @{
     string action = ViewBag.currentAction;
+    //var ajaxOpts = new AjaxOptions()
+    //{
+    //    Url = Url.Action(action),
+    //    HttpMethod = "POST",
+    //    OnSuccess = "onSuccess",
+    //};
 }
 
 @using (Html.BeginForm(action, "office", FormMethod.Post, new { id = "postEidt" }))
@@ -37,22 +43,24 @@
             </div>
         </div>
     </div>
+
     @Scripts.Render("~/bundles/jqueryval")
     <script>
 
         $(document).ready(function () {
             $("#postEidt").submit(function () {
-                alert("Just Started");
-                $.ajax({
-                    Type: "POST",
-                    url: "@Url.Action(action)",
-                }).success(function (data) {
-                    //$("#edit").html(data);
-                    location.reload(true);
-                }).error(function (request, error) {
-                    $("#edit").html(request);
-                })
-            });
+                //var code = $('#Title').val();
+                //alert(code);
+                    $.ajax({
+                        Type: "POST",
+                        url: "@Url.Action(action)",
+                    }).success(function (data) {
+                        //$("#edit").html(data);
+                        location.reload(true);
+                    }).error(function (request, error) {
+                        $("#edit").html(request);
+                    })
+                });
 
             $("#cancelEdit").click(function () {
                 $("#edit").hide();
