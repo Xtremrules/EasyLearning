@@ -55,6 +55,7 @@
                                         <th>Name</th>
                                         <th>RegNo</th>
                                         <th>Level</th>
+                                        <th>User name</th>
                                         <th>Age</th>
                                         <th>Courses</th>
                                     </tr>
@@ -67,6 +68,7 @@
                                             <td>@Html.DisplayFor(x => student.AppUser.FullName)</td>
                                             <td>@Html.DisplayFor(x => student.RegNo)</td>
                                             <td>@Html.DisplayFor(x => student.Level)</td>
+                                            <td>@Html.DisplayFor(x => student.AppUser.UserName)</td>
                                             <td>@Html.DisplayFor(x => student.AppUser.Age)</td>
                                             <td>@Html.ActionLink("Courses", "student-courses", new { RegNo = student.RegNo }, new { @class = "btn btn-flat btn-primary" })</td>
                                         </tr>

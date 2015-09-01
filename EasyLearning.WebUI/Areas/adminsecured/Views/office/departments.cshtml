@@ -60,7 +60,7 @@
                                 {
                                     <tr>
                                         <td> @(++departCount)</td>
-                                        <td> @Html.ActionLink(department.Name, "department", new { id = department.Title }) </td>
+                                        <td> @Html.ActionLink(department.Name, "department", new { departCode = department.Title }) </td>
                                         <td> @department.Title</td>
                                         <td>@Html.DisplayFor(x => department.Duration) Years</td>
                                         <td>

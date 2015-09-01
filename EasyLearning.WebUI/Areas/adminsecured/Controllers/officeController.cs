@@ -68,7 +68,7 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
             return View();
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> upload(HttpPostedFileBase image = null)
         {
             if (VerifyImage(image))
@@ -121,11 +121,11 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
             return View(_departmentService.GetAll().ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult department(string id)
+        public ActionResult department(string departCode)
         {
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(departCode))
             {
-                Department model = _departmentService.GetAll().Where(x => x.Title.ToLower() == id.ToLower()).LastOrDefault();
+                Department model = _departmentService.GetAll().Where(x => x.Title.ToLower() == departCode.ToLower()).LastOrDefault();
                 if (model != null)
                     return View(model);
             }
@@ -359,12 +359,66 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
             return PartialView("EditModel", model);
         }
 
+        public async Task<PartialViewResult> EditDepartment(int? id)
+        {
+            ViewBag.currentAction = "EditDepartment";
+            var department = await _departmentService.GetbyIdAsync(id.Value);
+            var model = new EditViewModel
+            {
+                Id = department.ID,
+                Name = department.Name,
+                Title = department.Title
+            };
+            return PartialView("EditModel", model);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<PartialViewResult> EditDepartment([Bind(Include = "Id,Name,Title")]EditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var department = await _departmentService.GetbyIdAsync(model.Id);
+                if (department != null)
+                {
+                    department.Name = model.Name;
+                    department.Title = model.Title;
+                    await _departmentService.UpdateAsync(department);
+                    return null;
+                }
+                else ModelState.AddModelError("", "The Department wasn't found");
+            }
+            ViewBag.currentAction = "EditDepartment";
+            return PartialView("EditModel", model);
+        }
+
         [ActionName("add-department")]
         public ViewResult AddDepartment()
         {
             ViewBag.department = "active";
             PopulateCollegeDropDownList();
             return View("AddDepartment", new Department());
+        }
+
+        [HttpPost,ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteDepartment([Bind(Include = "ID")]int ID)
+        {
+            var department = await _departmentService.GetbyIdAsync(ID);
+            if (department != null)
+            {
+                try
+                {
+                    await _departmentService.DeleteAsync(department);
+                    TempData["success"] = "The department was successfully Deleted";
+                    return RedirectToAction("departments");
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+            }
+            TempData["error"] = "Sorry, Try again later";
+            return RedirectToAction("departments");
         }
 
         [ValidateAntiForgeryToken]
