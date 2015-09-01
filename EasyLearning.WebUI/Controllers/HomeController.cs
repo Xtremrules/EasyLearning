@@ -13,14 +13,14 @@ namespace EasyLearning.WebUI.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            //ViewBag.Message = "WHAT YOU NEED TO KNOW ABOUT ONLINE LEARNING AND TEACHING APPLICATION";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            //ViewBag.Message = "WE ARE HERE TO MAKE YOU LEARN WITH EASE...";
 
             return View();
         }

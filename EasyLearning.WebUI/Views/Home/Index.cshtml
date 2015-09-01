@@ -2,36 +2,88 @@
     ViewBag.Title = "Home";
 }
 
+@*@Html.Partial("_PartialNonso")*@
+@section Golden{
+    @*<div class="jumbotron">
+        <h1>MOUAU Online Teaching and Learning Application</h1>
+        @*<p class="lead">This is an application that is design to make teaching and learning very interested...</p>*@
+    @*<p><a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-lg">Login to Begin &raquo;</a></p>*@
+    @*</div>*@
 
-<div class="jumbotron">
-    <h1>Easy Learning App</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-lg">Login to Begin &raquo;</a></p>
-</div>
+    <div class="container" style="padding:15px">
+        <div class="col-md-3" style="height:160%;padding-left:0px">
+            <div class="panel panel-default" style="border:2px solid rgba(0,80,150,1);">
+                <div style="border-bottom:1px solid rgba(0,150,80,1) ;text-align:center;font-size:20px;font-weight:bolder;color:white;background-color:rgba(0,70,120,1.5)"> ADMIN OFFICE  </div>
+                <div style="padding:15px">  <img src="@Url.Content("~/Content/Pix U/were.jpg")" width="100%" height="120%" class="img-responsive" /> </div>
+                <p style="color:black;font-weight:bold;padding:15px;text-align:justify">  Mouau EasyLearning Application System <br /> <a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-lg">Login to Begin </a> </p>
+            </div>
+            <div class="panel panel-default" style="border:2px solid rgba(0,80,150,1);">
+                <div style="border-bottom:1px solid rgba(0,150,80,1) ;text-align:center;font-size:20px;font-weight:bolder;color:white;background-color:rgba(0,70,120,1.5)"> LECTURER'S PROFILE   </div>
+                <div style="padding:15px"> <img src="@Url.Content("~/Content/Pix U/bbusi.jpg")" width="100%" height="120%" class="img-responsive" /> </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>ADMIN DESK</h2>
-        <p>
-            This is a microsoft online interactive teaching and learning application software that is design to help
-            the students learn online and submit their respective assignments.
-        </p>
-        @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+            </div>
+            <div class="panel panel-default" style="border:2px solid rgba(0,80,150,1);">
+                <div style="border-bottom:1px solid rgba(0,150,80,1) ;text-align:center;font-size:20px;font-weight:bolder;color:white;background-color:rgba(0,70,120,1.5)"> STUDENT'S PROFILE  </div>
+                <div style="padding:15px"> <img src="@Url.Content("~/Content/Pix U/ryk.jpg")" width="100%" height="120%" class="img-responsive" /> </div>
+
+            </div>
+
+            <div class="panel panel-default" style="border:3px solid rgba(0,80,150,1)">
+                <div class="panel-head" style="height:50px; background-color:rgba(0,80,150,1); color:white; text-align:center; line-height:55px; font-weight:bolder; font-size:15px">
+                    JOIN US ON:
+
+                    <a href="http://www.facebook.com/easylearning.app"> <img src="@Url.Content("~/Content/Me Pix/facb1.jpg")" style="padding-left:40px" /> </a>
+
+
+                    <a href="http://www.twitter.com"> <img src="@Url.Content("~/Content/Me Pix/twitter1.jpg")" style="padding-left:10px" /> </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-9">
+            <div class="panel panel-default" style="border:1px solid rgba(0,80,150,1)">
+                <div style="border-bottom:1px solid rgba(0,150,80,1) ;text-align:center;font-size:20px;font-weight:bolder;color:white;background-color:rgba(0,70,120,1.5)"> ONLINE TEACHING AND LEARNING SYSTEM </div>
+                <div style="padding:15px"> <img src="@Url.Content("~/Content/Pix U/images.jpg")" width="100%" height="120%" class="img-circle" /> </div>
+                <p style="color:black;font-weight:bold;padding:15px;text-align:justify"> "This is a system that is design to make learning and teaching online interesting and effective in this great citadel of learning. Online teaching and learning applition system is design to make students study at ease, irrespective of the timing and location. <a href="@Url.Action("About", "Home")" style="text-decoration:none">...LEARN MORE... </a> </p>
+
+            </div>
+
+
+        </div>
+
+
+
     </div>
-    <div class="col-md-4">
-        <h2>LECTURER'S PROFILE</h2>
-        <p>
-            This is the database of all the lecturers and the courses they offer in the various departments in CEET.
-            It also covers the teachings/lectures taught by the lecturers.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>STUDENT'S PROFILE</h2>
-        <p>
-            This is the database of all the students in engineering college and their courses. it also has a forum where students
-            can interact with their lecturers via questions and answers. More studies can be downloaded by the students in respect to topics discussed by the lecturer.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+    @*<div class="row">
+        <div class="col-md-4">
+            <h2>ADMIN DESK</h2>
+            <p>
+                This is a microsoft online interactive teaching and learning application software that is design to help
+                the students learn online and submit their respective assignments.
+            </p>
+            @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+    @*</div>
+            <div class="col-md-4">
+                <h2>LECTURER'S PROFILE</h2>
+                <p>
+                    This is the database of all the lecturers and the courses they offer in the various departments in CEET.
+                    It also covers the teachings/lectures taught by the lecturers.
+                </p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>STUDENT'S PROFILE</h2>
+                <p>
+                    This is the database of all the students in engineering college and their courses. it also has a forum where students
+                    can interact with their lecturers via questions and answers. More studies can be downloaded by the students in respect to topics discussed by the lecturer.
+                </p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+            </div>
+        </div>*@
+}
+
+

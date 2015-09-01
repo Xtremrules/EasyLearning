@@ -1,7 +1,28 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+@*<h2>@ViewBag.Title</h2>*@
+@*<h3>@ViewBag.Message</h3>*@
+@Html.Partial("_PartialNonso")
 
-<p>Use this area to provide additional information.</p>
+@section Golden{
+    <div class="panel panel-default" style="border:3px solid rgba(0,80,150,1)">
+        <div style="border-bottom:1px solid rgba(0,150,80,1) ;text-align:center;font-size:20px;font-weight:bolder;color:white;background-color:rgba(0,70,120,1.5)"> BRIEF INFORMATION ABOUT ONLINE LEARNING AND TEACHING SYSTEM </div>
+        <p style="color:black; font-weight:bolder;padding:15px;text-align:justify">
+            According to Hedge and Haward (2004), E-learning is an innovative approach for delivering electronically mediated, well-designed, leaner-centred and interactive learning environment to anyone, anytime and anyplace by utilizing the internet and digital technologies in concern with instructional design principles. <br />
+            Similar to above, Nwokike (2010) defined E-learning as the use of computer as a key component of the education environment. <br /> For Asah (2011), 
+            E-learning is the use of Information and Communication Technology (ICT) which include computer networks, communication and mobile technologies to enhance and extend
+            learning. These technologies help to deliver and make education and information accessible to whoever needs it. <br /> For the Wikipedia (2011), E-learning is essentially the computer and network–enabled transfer of skills and knowledge.
+            It is an instruction delivered via an electronic media (Chitana, Makaza and Madizama, 2008). <br />
+            To Ngsakul and Meejaleum (2009) refer to E-learning as comprising the combination, implementation and relationship of teaching and<br />
+            learning via different ICT Media such as computer, internet, multimedia projector, video tapes and CD Rom. 
+            From these definitions Anowor (2002) maintained that the concept Electronic learning comprises of four factors:
+            <ul>
+                    <li>The use of all forms of electronically supported learning and teaching equipments;
+                    <li>The use of technology to enable people to learn anytime and anywhere;
+                <li> The use of ICT in developing skills as well as concept based knowledge;
+                <li> The use of instructional media in form of texts, images, animation, video and audio devices.
+            </ul>
+        </p>
+</div>
+}

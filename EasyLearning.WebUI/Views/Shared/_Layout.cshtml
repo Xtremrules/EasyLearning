@@ -7,7 +7,37 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
+<body class="bg-success">
+
+    <div class="container" style="background-color:white; width:100%; margin-bottom:0px; padding:0px; border-bottom:5px solid rgba(0,70,120,1.5)">
+
+
+        <div class="col-md-3" style="height:160%; margin-right:5px; padding-top:5px;float:right">
+
+
+            <div class="panel panel-success" style="padding:0px">
+                <div class=" panel-heading">
+                    <h3 class="panel-title">SEARCH OUR SITE</h3>
+                </div>
+                <div class="panel-body" style="padding-top: 10px; padding-bottom:5px; margin-top:40px">
+                    @*@using (Html.BeginForm("SearchIndex", "Home", FormMethod.Get, new { @role = "form" }))*@
+
+
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <input class="form-control input-block-level" type="text" name="searchString" placeholder="Search...">
+                            <div class="input-group-addon"><button type="submit" class="btn-search"><i class="fa fa-search"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
     <div class="navbar navbar-inverse navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -29,16 +59,32 @@
             </div>
         </div>
     </div>
+    @Html.Partial("_PartialNonso")
 
     <div class="container body-content">
+        <div>
+            @RenderSection("Golden", required: false)
+        </div>
         @RenderBody()
         <hr />
-        @*<footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>*@
-        @Html.Partial("_Footer")
     </div>
 
+    @*<footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>*@
+
+
+
+
+    <footer>
+        <div class="navbar navbar-default navbar-static-bottom" style="color:black;border-radius:0px;margin-bottom:0px;line-height:50px;background-color:rgba(0,70,130,1.5)">
+            <h4 style="text-align:center;font-size:20px;color:white;font-weight:bolder"> @Html.Partial("_Footer") </h4>
+
+        </div>
+    </footer>
+
+    <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.js")" type="text/javascript"></script>
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 </body>

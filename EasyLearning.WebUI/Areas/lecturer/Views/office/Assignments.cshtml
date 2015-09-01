@@ -33,7 +33,8 @@
                                     <th>Reg No</th>
                                     <th>Department</th>
                                     <th>Score</th>
-                                    <th>view</th>
+                                    <th>Time</th>
+                                    <th>view</th>                                                                       
                                 </tr>
                             </thead>
                             <tbody>
@@ -43,8 +44,9 @@
                                         <td>@(++count)</td>
                                         <td>@Html.DisplayFor(x => assign.Student.AppUser.FullName)</td>
                                         <td>@Html.DisplayFor(x => assign.StudentRegNo)</td>
-                                        <td>@Html.DisplayFor(x => assign.Student.Department.Name)</td>
+                                        <td>@Html.DisplayFor(x => assign.Student.Department.Name)</td>                                       
                                         <td>@Html.DisplayFor(x => assign.Score)</td>
+                                        <td>@Html.DisplayFor(x => assign.CreatedDate)</td>
                                         <td><a href="@Url.Action("view", new { id = assign.ID })">View / Grade</a></td>
                                     </tr>
                                 }

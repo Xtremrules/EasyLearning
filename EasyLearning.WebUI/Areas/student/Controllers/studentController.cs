@@ -30,8 +30,7 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
         public studentController(IActivityService _activityService,
            IStudentService _studentService, ICourseService _courseService,
             IReplyService _replyService, ICommentService _commentService,
-            IStudyService _studyService,IAssignmentService _assignmentService)
-        
+            IStudyService _studyService, IAssignmentService _assignmentService)
         {
             this._activityService = _activityService;
             this._studentService = _studentService;
@@ -176,6 +175,7 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
                     SaveName = assignmentData.FileName,
                     ContentType = assignmentData.ContentType,
                     Score = null,
+                    //Time = DateTime.Now
                 };
 
                 try
@@ -186,7 +186,7 @@ namespace EasyLearning.WebUI.Areas.student.Controllers
                 }
                 catch (Exception)
                 {
-                    System.IO.File.Delete(Server.MapPath(newAPath));                    
+                    System.IO.File.Delete(Server.MapPath(newAPath));
                     throw;
                 }
             }
