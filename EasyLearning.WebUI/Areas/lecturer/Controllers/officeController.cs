@@ -167,67 +167,74 @@ namespace EasyLearning.WebUI.Areas.lecturer.Controllers
             ViewBag.studies = "active";
             if (ModelState.IsValid)
             {
-                if (!_studyService.GetAll().Any(x => model.Name.Equals(x.Name,StringComparison.OrdinalIgnoreCase) 
-                    && x.CreatedBy == User.Identity.Name && x.CourseID == model.CourseID))
+                if (model.DeadLine > DateTime.Now)
                 {
-                    string newVideoPath = "";
-                    string newMaterialPath = "";
-                    string StudyVideoPath = "~/Study Videos";
-                    string studyMaterialPath = "~/Materials";
-                    bool validVideo = VideoIsValid(video);
-                    bool materIsValid = MaterialIsValid(material);
-                    if (validVideo)
+                    if (!_studyService.GetAll().Any(x => model.Name.Equals(x.Name, StringComparison.OrdinalIgnoreCase)
+                   && x.CreatedBy == User.Identity.Name && x.CourseID == model.CourseID))
                     {
-                        if (!Directory.Exists(Server.MapPath(StudyVideoPath)))
-                            Directory.CreateDirectory(Server.MapPath(StudyVideoPath));
+                        string newVideoPath = "";
+                        string newMaterialPath = "";
+                        string StudyVideoPath = "~/Study Videos";
+                        string studyMaterialPath = "~/Materials";
+                        bool validVideo = VideoIsValid(video);
+                        bool materIsValid = MaterialIsValid(material);
+                        if (validVideo)
+                        {
+                            if (!Directory.Exists(Server.MapPath(StudyVideoPath)))
+                                Directory.CreateDirectory(Server.MapPath(StudyVideoPath));
 
-                        var videoPath = Path.Combine(Server.MapPath(StudyVideoPath), Guid.NewGuid().ToString() + " " + video.FileName);
-                        video.SaveAs(videoPath);
+                            var videoPath = Path.Combine(Server.MapPath(StudyVideoPath), Guid.NewGuid().ToString() + " " + video.FileName);
+                            video.SaveAs(videoPath);
 
-                        videoPath = videoPath.Substring(videoPath.LastIndexOf("\\"));
-                        string[] splitVideoPath = videoPath.Split('\\');
-                        newVideoPath = splitVideoPath[1];
-                        newVideoPath = StudyVideoPath + "/" + newVideoPath;
+                            videoPath = videoPath.Substring(videoPath.LastIndexOf("\\"));
+                            string[] splitVideoPath = videoPath.Split('\\');
+                            newVideoPath = splitVideoPath[1];
+                            newVideoPath = StudyVideoPath + "/" + newVideoPath;
 
-                        model.VideoName = video.FileName;
-                        model.VideoType = video.ContentType;
-                        model.VideoUrl = newVideoPath;
+                            model.VideoName = video.FileName;
+                            model.VideoType = video.ContentType;
+                            model.VideoUrl = newVideoPath;
+                        }
+                        if (materIsValid)
+                        {
+                            if (!Directory.Exists(Server.MapPath(studyMaterialPath)))
+                                Directory.CreateDirectory(Server.MapPath(studyMaterialPath));
+
+                            var materialPath = Path.Combine(Server.MapPath(studyMaterialPath), Guid.NewGuid().ToString() + " " + material.FileName);
+                            material.SaveAs(materialPath);
+
+                            materialPath = materialPath.Substring(materialPath.LastIndexOf("\\"));
+                            string[] splitMaterialPath = materialPath.Split('\\');
+                            newMaterialPath = splitMaterialPath[1];
+                            newMaterialPath = studyMaterialPath + "/" + newMaterialPath;
+
+                            model.NoteName = material.FileName;
+                            model.NoteType = material.ContentType;
+                            model.NoteUrl = newMaterialPath;
+                        }
+
+                        try
+                        {
+                            await _studyService.CreateAsync(model);
+                            TempData["success"] = "The study was created successfully";
+                            return RedirectToAction("studies", new { id = model.CourseID });
+                        }
+                        catch (Exception)
+                        {
+                            System.IO.File.Delete(Server.MapPath(model.NoteUrl));
+                            System.IO.File.Delete(Server.MapPath(model.VideoUrl));
+                            throw;
+                        }
+
                     }
-                    if (materIsValid)
+                    else
                     {
-                        if (!Directory.Exists(Server.MapPath(studyMaterialPath)))
-                            Directory.CreateDirectory(Server.MapPath(studyMaterialPath));
-
-                        var materialPath = Path.Combine(Server.MapPath(studyMaterialPath), Guid.NewGuid().ToString() + " " + material.FileName);
-                        material.SaveAs(materialPath);
-
-                        materialPath = materialPath.Substring(materialPath.LastIndexOf("\\"));
-                        string[] splitMaterialPath = materialPath.Split('\\');
-                        newMaterialPath = splitMaterialPath[1];
-                        newMaterialPath = studyMaterialPath + "/" + newMaterialPath;
-
-                        model.NoteName = material.FileName;
-                        model.NoteType = material.ContentType;
-                        model.NoteUrl = newMaterialPath;
+                        ModelState.AddModelError("", "A study with the same name for this course have already been added by you");
                     }
-
-                    try
-                    {
-                        await _studyService.CreateAsync(model);
-                        TempData["success"] = "The study was created successfully";
-                        return RedirectToAction("studies", new { id = model.CourseID });
-                    }
-                    catch (Exception)
-                    {
-                        System.IO.File.Delete(Server.MapPath(model.NoteUrl));
-                        System.IO.File.Delete(Server.MapPath(model.VideoUrl));
-                        throw;
-                    }
-                    
                 }
                 else
                 {
-                    ModelState.AddModelError("", "A study with the same name for this course have already been added by you");
+                    ModelState.AddModelError("", "Dead line must be at least 1 day");
                 }
             }
             return View(model);

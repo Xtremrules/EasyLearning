@@ -47,6 +47,12 @@
                             @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
                         </div>
 
+                        <div class="form-group has-feedback">
+                            @Html.LabelFor(x => x.DeadLine)
+                            @Html.EditorFor(x => x.DeadLine, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(x => x.DeadLine, "", new { @class = "text-danger"})
+                        </div>
+
                         <div class="form-group">
                             @Html.Label("Video File")
                             <input type="file" id="video" name="video" class="form-control">

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System;
 
 namespace EasyLearning.Domain.Entity
 {
@@ -9,6 +10,9 @@ namespace EasyLearning.Domain.Entity
     {
         [Required]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Enter dead line for the study"), Display(Name = "Dead Line")]
+        [DataType(DataType.Date)]
+        public DateTime DeadLine { get; set; }
         [AllowHtml]
         [Required, DataType(DataType.MultilineText)]
         public string Summary { get; set; }

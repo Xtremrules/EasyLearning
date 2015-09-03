@@ -38,7 +38,14 @@
                 <a class="btn btn-flat btn-info" href="@Url.Action("Note", new { id = Model.ID })"><i class="fa fa-book fa-fw"></i>Download Note</a>
                 if (!Model.Assignments.Any(x => x.CreatedBy == User.Identity.Name))
                 {
-                    <a class="btn btn-flat btn-success" href="@Url.Action("uploadAssignment", new{id = Model.ID})"><i class="fa fa-list fa-fw"></i>Upload Assignment</a>
+                    if (Model.DeadLine > DateTime.Now)
+                    {
+                        <a class="btn btn-flat btn-success" href="@Url.Action("uploadAssignment", new{id = Model.ID})">
+                            <i class="fa fa-list fa-fw"></i>Upload Assignment
+
+                            <i class="text-danger">Dead line @Model.DeadLine.ToShortDateString()</i>
+                        </a>
+                    }
                 }
                 else
                 {
