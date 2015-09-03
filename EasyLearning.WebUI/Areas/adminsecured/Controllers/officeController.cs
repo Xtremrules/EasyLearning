@@ -274,7 +274,7 @@ namespace EasyLearning.WebUI.Areas.adminsecured.Controllers
                             TempData["success"] = "The Course has been created";
                             return RedirectToAction("courses");
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             TempData["error"] = "Sorry error occurred Try again latter";
                             //ModelState.AddModelError("", ex);

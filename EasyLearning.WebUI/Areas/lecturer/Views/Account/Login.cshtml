@@ -13,25 +13,25 @@
             {
                 <div class="container">
                     <div class="jumbotron">
-                        <h3>Student Login Page</h3>
+                        <h3>Lecturer's Login Page</h3>
                     </div>
                 </div>
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     @Html.Label("username", new { @class = "control-label" })
-                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password, new { @class = "control-label" })
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.isPersistent)
-                            @Html.Label("Remember me")
+                    <div class="checkbox">
+                        @Html.CheckBoxFor(m => m.isPersistent)
+                        @Html.Label("Remember me")
                     </div>
                 </div>
                 <div class="form-group">
@@ -42,7 +42,7 @@
             }
         </section>
     </div>
-    
+
 </div>
 
 @section Scripts{

@@ -412,6 +412,8 @@
     <Content Include="Areas\lecturer\Views\office\Assignments.cshtml" />
     <Content Include="Areas\lecturer\Views\office\view.cshtml" />
     <Content Include="Perusal\PIKO\hall.rar" />
+    <Content Include="Areas\adminsecured\Views\Account\Login.cshtml" />
+    <Content Include="Areas\lecturer\Views\Account\Login.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\iCheck\all.css" />
     <Content Include="Scripts\iCheck\flat\aero%402x.png" />
@@ -553,6 +555,7 @@
     <Compile Include="App_Start\IdentityStartup.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\adminsecured\adminsecuredAreaRegistration.cs" />
+    <Compile Include="Areas\adminsecured\Controllers\AccountController.cs" />
     <Compile Include="Areas\adminsecured\Controllers\officeController.cs" />
     <Compile Include="Areas\adminsecured\Models\AddCourseViewModel.cs" />
     <Compile Include="Areas\adminsecured\Models\AssignedCourseData.cs" />
@@ -560,6 +563,7 @@
     <Compile Include="Areas\adminsecured\Models\EditViewModel.cs" />
     <Compile Include="Areas\adminsecured\Models\UserCreateModel.cs" />
     <Compile Include="Areas\adminsecured\Models\ActionModel.cs" />
+    <Compile Include="Areas\lecturer\Controllers\AccountController.cs" />
     <Compile Include="Areas\lecturer\Controllers\officeController.cs" />
     <Compile Include="Areas\lecturer\lecturerAreaRegistration.cs" />
     <Compile Include="Areas\lecturer\Models\Dashboard.cs" />
